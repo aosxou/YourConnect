@@ -8,6 +8,7 @@
 body {
   background: #f6f6f6;
   color: #222;
+  min-width: 1400px;
 }
 
 /* Slightly reduce base font size for a more compact appearance */
