@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YourConnect | 멘토링</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Pretendard", "Noto Sans KR", sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #fff;
+      color: #222;
+    }
+
+    /* Header */
+    .header-main {
+      display: flex;
+      justify-content: center;
+      padding: 0 40px;
+      border-bottom: 1px solid #ddd;
+      background: #fff; /* headhunting 설정과 동일 */
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    .logo-area a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .logo-img {
+      width: 110px;
+      height: auto;
+    }
+
+    .menu-category-group {
+      display: flex;
+      gap: 190px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .menu-item {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #222;
+      transition: color 0.2s;
+    }
+
+    .hover-purple:hover {
+      color: #8b5cf6;
+    }
+
+    .auth-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      border: 1px solid #8b5cf6;
+      background: white;
+      color: #8b5cf6;
+    }
+
+    .btn-primary:hover {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 1px solid #aaa;
+      background: white;
+      color: #222;
+    }
+
+    .btn-secondary:hover {
+      background: #f4f4f4;
+    }
+
+    /* 메인 레이아웃 */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 260px; /* 우측 폭을 약간 줄여 좌측으로 당김 */
+      gap: 12px; /* 카드와 사이드바 간격을 더 좁게 */
+      padding: 20px 90px; /* 좌우에서 각각 30px 추가로 중앙으로 모음 */
+    }
+
+    /* 왼쪽 - 멘토 카드 */
+    .mentor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 280px); /* 한 줄에 3칸, 비율 유지한 채 크기 확대 */
+      gap: 20px;
+      justify-content: start; /* 좌측 정렬 유지 */
+      padding-right: 0; /* 사이드바와 더 가깝게 */
+      padding-left: 0;  /* 좌측은 main의 패딩을 활용 (유지) */
+    }
+
+    .mentor-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 18px 18px 22px 18px; /* 크기 확대에 맞춰 여백 증가 */
+      min-height: 210px; /* 세로 길이 약간 증가 */
+      display: flex;
+      align-items: flex-start;
+      gap: 16px; /* 내부 간격 소폭 증가 */
+      transition: all 0.2s;
+    }
+
+    .mentor-card:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .mentor-card img {
+      width: 72px; /* 박스 확대에 맞춰 증가 */
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .mentor-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px; /* 박스 확대에 맞춰 간격 조정 */
+      flex: 1;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.9rem; /* 비례 확대 */
+      color: #444;
+      margin-top: 6px; /* 이미지와의 간격 유지 */
+    }
+
+    .rating-row .star {
+      color: #f5b301;
+      font-size: 1rem; /* 비례 확대 */
+      line-height: 1;
+    }
+
+    .rating-row .rating-label {
+      color: #555;
+      font-weight: 600;
+    }
+
+      .mentor-info {
+        text-align: left;
+    }
+
+    .mentor-card h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.1rem; /* 비례 확대 */
+    }
+
+    .mentor-card p {
+      margin: 0;
+      font-size: 1rem; /* 비례 확대 */
+      color: #555;
+    }
+
+    .mentor-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 8px; /* 박스 확대에 맞춰 간격 조정 */
+    }
+
+    .mentor-card .btn {
+      border: 1px solid #ccc;
+      background: white;
+      padding: 4px 9px; /* 조금만 더 축소 */
+      border-radius: 9999px; /* 더 라운드 (필 형태) */
+      font-size: 0.8rem; /* 조금만 더 축소 */
+      cursor: pointer;
+    }
+
+    .mentor-card .btn:hover {
+      background: #f3f3f3;
+    }
+
+    /* 오른쪽 사이드 */
+    aside {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 16px;
+      height: fit-content;
+    }
+
+    aside h4 {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    /* 모달 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 10px;
+      padding: 30px;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 16px;
+    }
+
+    .modal-content button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #8b5cf6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-main">
+    <nav class="nav-container">
+      <div class="logo-area">
+        <a href="index.html">
+          <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+        </a>
+      </div>
+
+      <div class="menu-category-group">
+        <a href="ai_interview.html" class="menu-item hover-purple">
+          맞춤형 커리어 디자인🖥️
+        </a>
+        <a href="mentoring.html" class="menu-item hover-purple">
+          멘토링🤝🏼
+        </a>
+        <a href="headhunting.html" class="menu-item hover-purple">
+          헤드 헌팅🏢
+        </a>
+      </div>
+
+      <div class="auth-group">
+        <a href="#cta" class="btn btn-primary">로그인</a>
+        <a href="#cta" class="btn btn-secondary">회원가입</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="mentor-grid" id="mentorGrid">
+      <!-- 멘토 카드 6개 예시 -->
+    </section>
+
+    <aside>
+      <h4>이가윤님 👩🏻‍💻</h4>
+      <p>회원정보 수정</p>
+      <hr />
+      <h4>분야 선택</h4>
+      <p>개발자 / PM / 디자이너</p>
+      <hr />
+      <h4>멘토링 진행 상태</h4>
+      <p>요청 대기 / 수락됨</p>
+    </aside>
+  </main>
+
+  <!-- 모달 -->
+  <div class="modal" id="requestModal">
+    <div class="modal-content" id="modalContent">
+      <h2>멘토링 요청 대기 중...</h2>
+      <p><span id="mentorName"></span>님께 멘토링을 요청했습니다.</p>
+    </div>
+  </div>
+
+  <script>
+    const mentors = [
+      { name: "이서준", field: "IT / 백엔드 개발자", rating: 4.9, ratingCount: 128 },
+      { name: "박혁수", field: "금융 / 전략 기획", rating: 4.7, ratingCount: 96 },
+      { name: "배현진", field: "경영 컨설턴트 / PM", rating: 4.8, ratingCount: 142 },
+      { name: "서유진", field: "인사 / 커리어 코치", rating: 4.6, ratingCount: 75 },
+      { name: "최가은", field: "데이터 분석가 / PM", rating: 4.8, ratingCount: 101 },
+      { name: "정재윤", field: "AI 개발자 / 연구원", rating: 4.9, ratingCount: 187 }
+    ];
+
+    const mentorGrid = document.getElementById("mentorGrid");
+    const modal = document.getElementById("requestModal");
+    const modalContent = document.getElementById("modalContent");
+    const mentorNameEl = document.getElementById("mentorName");
+
+    // 멘토 카드 생성
+    mentors.forEach(m => {
+      const card = document.createElement("div");
+      card.classList.add("mentor-card");
+      card.innerHTML = `
+        <div class="mentor-left">
+          <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="멘토 프로필">
+          <div class="rating-row" aria-label="평점 ${m.rating.toFixed(1)}점, 총 ${m.ratingCount}명 평가">
+            <span class="rating-label">평점</span>
+            <span class="star" aria-hidden="true">★</span>
+            <span class="rating">${m.rating.toFixed(1)}</span>
+            <span class="rating-count">(${m.ratingCount})</span>
+          </div>
+          <div class="mentor-info">
+            <h3>${m.name}</h3>
+            <p>전문 분야: ${m.field}</p>
+          </div>
+        </div>
+        <div class="mentor-btns">
+          <button class="btn">상세 정보</button>
+          <button class="btn applyBtn">멘토링 신청</button>
+        </div>
+      `;
+      mentorGrid.appendChild(card);
+    });
+
+    // 멘토링 신청 클릭 이벤트
+    document.querySelectorAll(".applyBtn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        const name = e.target.closest(".mentor-card").querySelector("h3").textContent;
+        mentorNameEl.textContent = name;
+        modal.style.display = "flex";
+
+        // 3초 뒤 자동으로 '수락 완료'로 변경
+        setTimeout(() => {
+          modalContent.innerHTML = `
+            <h2 style="color:#00a36c;">수락 완료</h2>
+            <p>${name}님이 멘토 요청을 수락하였습니다.</p>
+            <button onclick="window.location.href='mentoring_chat.html'">대화하기</button>
+          `;
+        }, 3000);
+      });
+    });
+
+    // 모달 클릭 시 닫기
+    modal.addEventListener("click", e => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  </script>
+</body>
+</html>

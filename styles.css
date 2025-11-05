@@ -1,0 +1,293 @@
+/* 전역 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Pretendard", sans-serif;
+}
+/* Slightly reduce global text size for a more compact layout */
+body {
+    font-size: 14px; /* reduced from browser default 16px */
+    line-height: 1.45;
+}
+
+/* 헤더 스타일 */
+header {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.menu-item {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.125rem;
+    color: inherit;
+}
+
+.hover-purple:hover {
+    color: #7c3aed;
+}
+
+/* 채팅 레이아웃 */
+.chat-layout {
+    display: flex;
+    min-height: calc(100vh - 80px);
+    background: #fff;
+    color: #222;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 320px;
+    background: #fafafa;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+}
+
+.profile-img i {
+    font-size: 24px;
+}
+
+.profile-sub {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.memo-section,
+.favorites,
+.question-history {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+    margin-bottom: 16px;
+}
+
+.memo-section textarea {
+    width: 100%;
+    height: 80px;
+    resize: none;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: #f9fafb;
+}
+
+.favorites ul,
+.question-history ul,
+.generated-questions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.favorites li,
+.question-history li,
+.generated-questions li {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+.favorites li:hover,
+.question-history li:hover,
+.generated-questions li:hover {
+    background: #efefef;
+}
+
+.generated-questions {
+    margin-top: 20px;
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+}
+
+.generated-question {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+}
+
+.generated-question.selected {
+    border-color: #7c3aed;
+    background: #f5f3ff;
+}
+
+.history-item {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.history-item strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #4b5563;
+}
+
+.history-item p {
+    color: #6b7280;
+    font-size: 0.9em;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* ----- Main Content ----- */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    height: 100%;
+}
+
+.interview-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    height: calc(100vh - 160px); /* 헤더 높이와 패딩을 고려한 계산 */
+}
+
+.question-area,
+.practice-area {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 내부 스크롤을 위한 설정 */
+}
+
+.question-area h3,
+.practice-area h3 {
+    margin-bottom: 15px;
+}
+
+.question-area p {
+    margin-bottom: 15px;
+}
+
+.question-area .btn {
+    margin-bottom: 0;
+    width: fit-content;
+}
+
+.answer-input {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.button-group button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #7c3aed;
+    color: white;
+}
+
+.button-group button:nth-child(2) {
+    background: #999;
+}
+
+.feedback-section {
+    margin-top: 20px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    font-size: 0.95rem;
+}
+
+.btn {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn:hover {
+    background: #6d28d9;
+}
+
+.btn-active {
+    transform: scale(0.95);
+    background: #6d28d9;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .chat-layout {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+    }
+    
+    .interview-section {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,267 @@
+/* Header */
+.header-main {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.logo-area a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.logo-img {
+    width: 110px;
+    height: auto;
+}
+
+.menu-category-group {
+    display: flex;
+    gap: 190px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.menu-item {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #222;
+    transition: color 0.2s;
+}
+
+.hover-purple:hover {
+    color: #8b5cf6;
+}
+
+.auth-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    border: 1px solid #8b5cf6;
+    background: white;
+    color: #8b5cf6;
+}
+
+.btn-primary:hover {
+    background: #8b5cf6;
+    color: white;
+}
+
+.btn-secondary {
+    border: 1px solid #aaa;
+    background: white;
+    color: #222;
+}
+
+.btn-secondary:hover {
+    background: #f4f4f4;
+}
+
+/* Main Content */
+.spec-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 10px;
+    font-family: "Pretendard", sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.spec-container h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #374151;
+}
+
+.subtext {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 직무 그룹 구분을 위한 스타일 */
+.grid button:empty {
+    display: block;
+    width: 100%;
+    height: 1px;
+    padding: 0;
+    margin: 5px 0;
+    background: transparent;
+    border: none;
+    pointer-events: none;
+}
+
+.grid button {
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.grid button:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+}
+
+.grid button.selected {
+    background: #7c3aed;
+    color: white;
+    border-color: #7c3aed;
+}
+
+.grid button.disabled {
+    opacity: 0.55;
+    pointer-events: none;
+    background: #f3f4f6;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+}
+
+.separator {
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    border: none;
+    margin: 6px 0;
+    pointer-events: none;
+}
+
+.save-box {
+    text-align: right;
+    margin-top: 40px;
+}
+
+.save-btn {
+    background: #38bdf8; /* 하늘색 */
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.save-btn:hover {
+    background: #0ea5e9; /* 조금 더 진한 하늘색 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .spec-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .grid {
+        gap: 8px;
+    }
+
+    .grid button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+/* 애니메이션 */
+.grid button {
+    transform: scale(1);
+}
+
+.grid button:active {
+    transform: scale(0.95);
+}
+
+.grid button.selected {
+    animation: selectPop 0.2s ease-out;
+}
+
+@keyframes selectPop {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* modal styles (copied from profile.css to keep consistent design) */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px 24px;
+    border-radius: 10px;
+    text-align: center;
+    min-width: 260px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.modal-content p {
+    font-size: 1rem;
+    color: #111827;
+    margin: 0 0 12px 0;
+}
+
+.modal-content .save-btn {
+    padding: 8px 20px;
+}

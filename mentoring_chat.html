@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>YourConnect | 멘토-멘티 대화창</title>
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: "Pretendard", "Noto Sans KR", sans-serif;
+  }
+  body {
+    margin: 0;
+    background: #fff;
+    color: #222;
+  }
+  html, body { height: 100%; }
+
+  /* Header (mentoring.html과 동일한 구조/스타일) */
+  .header-main {
+    display: flex;
+    justify-content: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .logo-area a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .logo-img {
+    width: 110px;
+    height: auto;
+  }
+
+  .menu-category-group {
+    display: flex;
+    gap: 190px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .menu-item {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #222;
+    transition: color 0.2s;
+  }
+
+  .hover-purple:hover {
+    color: #8b5cf6;
+  }
+
+  .auth-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  /* 헤더 버튼은 헤더 범위에서만 적용 */
+  .header-main .btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .header-main .btn-primary {
+    border: 1px solid #8b5cf6;
+    background: white;
+    color: #8b5cf6;
+  }
+
+  .header-main .btn-primary:hover {
+    background: #8b5cf6;
+    color: white;
+  }
+
+  .header-main .btn-secondary {
+    border: 1px solid #aaa;
+    background: white;
+    color: #222;
+  }
+
+  .header-main .btn-secondary:hover {
+    background: #f4f4f4;
+  }
+
+  /* Main layout */
+  main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    padding: 20px 40px;
+    height: calc(100vh - 80px); /* 화면 높이에 딱 맞도록 하단 길이 확장 */
+    align-items: stretch;
+  }
+
+  /* Sidebar */
+  aside {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 내부 스크롤 영역만 스크롤 */
+  }
+
+  aside h4 {
+    margin-bottom: 10px;
+    font-size: 1rem;
+  }
+
+  /* 프로필 박스 (ai_interview와 동일 스타일) */
+  .profile-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 16px;
+  }
+
+  .profile-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .profile-box h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .profile-edit {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    color: #666;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .profile-edit:hover {
+    color: #333;
+  }
+
+  .membership {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 16px;
+    background: #fafafa;
+  }
+
+  .history-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;             /* 사이드 박스가 페이지 높이에 맞게 확장 */
+    overflow-y: auto;    /* 기록 목록 스크롤 */
+  }
+
+  .history-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.2s;
+  }
+
+  .history-item:hover {
+    background: #f5f5f5;
+  }
+
+  .history-item.active {
+    background: #ede9fe;
+    border-color: #7c3aed;
+  }
+
+  /* Chat area */
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #fafafa;
+    height: 100%; /* 메인 높이에 맞춰 확장 */
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #ddd;
+    padding: 12px 20px;
+    background: #fff;
+  }
+
+  .chat-header img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+
+  .chat-header h2 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .chat-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; /* 대화 내용 스크롤 */
+  }
+
+  .message-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .question, .answer {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    background: #fff;
+    font-size: 0.95rem;
+  }
+
+  .question {
+    align-self: flex-end;
+    background: #f0f0ff;
+  }
+
+  .answer {
+    align-self: flex-start;
+    background: #ffffff;
+  }
+
+  /* Chat input */
+  .chat-input {
+    border-top: 1px solid #ddd;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+  }
+
+  .chat-input input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+  }
+
+  .chat-input button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <header class="header-main">
+    <nav class="nav-container">
+      <div class="logo-area">
+        <a href="index.html">
+          <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+        </a>
+      </div>
+
+      <div class="menu-category-group">
+        <a href="ai_interview.html" class="menu-item hover-purple">
+          맞춤형 커리어 디자인🖥️
+        </a>
+        <a href="mentoring.html" class="menu-item hover-purple">
+          멘토링🤝🏼
+        </a>
+        <a href="headhunting.html" class="menu-item hover-purple">
+          헤드 헌팅🏢
+        </a>
+      </div>
+
+      <div class="auth-group">
+        <a href="#cta" class="btn btn-primary">로그인</a>
+        <a href="#cta" class="btn btn-secondary">회원가입</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 왼쪽 사이드 -->
+    <aside>
+      <div class="profile-box">
+        <img class="profile-img" src="https://www.gravatar.com/avatar/?d=mp&s=100" alt="기본 프로필 이미지">
+        <div class="profile-info">
+          <h3>이가윤님</h3>
+          <a href="profile.html" class="profile-edit">
+            <span>⚙️</span>
+            <span>회원정보 수정</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="membership">
+        <p><b>연간 멤버십</b></p>
+      </div>
+
+      <h4>나의 질문 기록</h4>
+      <div class="history-box" id="historyList">
+        <div class="history-item" data-q="멘토님 안녕하세요. 자기소개서는 어떻게 써야 할까요?" data-a="좋은 질문이에요! 자기소개서는 본인의 성장 과정과 목표를 중심으로 스토리텔링하듯 쓰면 좋아요.">
+          멘토 1<br><small>질문 1회권</small>
+        </div>
+        <div class="history-item" data-q="면접 때 자주 묻는 질문이 있을까요?" data-a="최근에는 프로젝트 경험 중심의 질문이 많아요. 구체적인 사례를 준비해두세요.">
+          멘토 2<br><small>질문 3회권</small>
+        </div>
+        <div class="history-item" data-q="데이터 분석 직무에는 어떤 역량이 중요할까요?" data-a="SQL, Python, 커뮤니케이션 능력이 매우 중요합니다. 특히 문제 정의 능력을 키워보세요.">
+          멘토 3<br><small>질문 5회권</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 오른쪽 대화 영역 -->
+    <section class="chat-area">
+      <div class="chat-header">
+        <img src="https://www.gravatar.com/avatar/?d=mp&s=100" alt="기본 프로필 이미지">
+        <div>
+          <h2 id="mentorName">이서준</h2>
+        </div>
+      </div>
+
+      <div class="chat-content">
+        <div class="message-box" id="messageBox">
+          <!-- 기본: 빈 상태 -->
+        </div>
+      </div>
+
+      <div class="chat-input">
+        <input type="text" placeholder="질문을 입력하세요..." />
+        <button>🔍</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const historyItems = document.querySelectorAll(".history-item");
+    const messageBox = document.getElementById("messageBox");
+
+    historyItems.forEach(item => {
+      item.addEventListener("click", () => {
+        const wasActive = item.classList.contains("active");
+        // 모든 아이템 비활성화
+        historyItems.forEach(i => i.classList.remove("active"));
+
+        if (wasActive) {
+          // 동일 박스 재클릭 → 초기 화면으로 리셋
+          messageBox.innerHTML = ""; // 기본 빈 상태
+          return;
+        }
+
+        // 신규 활성화
+        item.classList.add("active");
+        const question = item.dataset.q;
+        const answer = item.dataset.a;
+        messageBox.innerHTML = `
+          <div class="question">Q. ${question}</div>
+          <div class="answer">A. ${answer}</div>
+        `;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보유 스펙 수정</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="spec.css">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header-main">
+        <nav class="nav-container">
+            <!-- 로고 클릭 시 메인 페이지로 이동 -->
+                <div class="logo-area">
+                    <a href="index.html">
+                        <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+                    </a>
+                </div>            <!-- 메뉴 -->
+            <div class="menu-category-group">
+                <a href="ai_interview.html" class="menu-item hover-purple">
+                    맞춤형 커리어 디자인🖥️
+                </a>
+                <a href="mentoring.html" class="menu-item hover-purple">
+                    멘토링🤝🏼
+                </a>
+                <a href="headhunting.html" class="menu-item hover-purple">
+                    헤드 헌팅🏢
+                </a>
+            </div>
+
+            <!-- 로그인 / 회원가입 -->
+            <div class="auth-group">
+                <a href="#cta" class="btn btn-primary">로그인</a>
+                <a href="#cta" class="btn btn-secondary">회원가입</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="spec-container">
+        <h2>보유 스펙 수정</h2>
+
+        <!-- 직급/직책 -->
+        <section>
+            <h3>직급/직책</h3>
+            <div class="grid" id="ranks-grid"></div>
+        </section>
+
+        <!-- 경력 -->
+        <section>
+            <h3>경력</h3>
+            <div class="grid" id="careers-grid"></div>
+        </section>
+
+        <!-- 직무 -->
+        <section>
+            <h3>직무 (<span id="jobs-count">0</span>/5)</h3>
+            <div class="grid" id="jobs-grid"></div>
+        </section>
+
+        <!-- 기업형태 -->
+        <section>
+            <h3>기업형태 (<span id="companies-count">0</span>/2)</h3>
+            <div class="grid" id="companies-grid"></div>
+        </section>
+
+        <!-- 근무지역 -->
+        <section>
+            <h3>근무지역 (<span id="regions-count">0</span>/2)</h3>
+            <div class="grid" id="regions-grid"></div>
+        </section>
+
+        <div class="save-box">
+            <button class="save-btn" id="save-button">정보 저장하기</button>
+        </div>
+    </div>
+
+        <!-- 저장 팝업 모달 (profile.html과 동일한 디자인) -->
+        <div id="saveModal" class="modal" aria-hidden="true">
+            <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+                <p id="modalTitle">정보가 저장되었습니다</p>
+                <button id="modalOk" class="save-btn">확인</button>
+            </div>
+        </div>
+
+        <script src="spec.js"></script>
+    </body>
+    </html>

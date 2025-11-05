@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YourConnect | AI 면접 연습</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Pretendard", "Noto Sans KR", sans-serif;
+    }
+    body {
+      margin: 0;
+      background: #fff;
+      color: #222;
+      min-width: 1200px;
+      overflow-x: auto;
+    }
+
+    /* Header */
+    .header-main {
+      display: flex;
+      justify-content: center;
+      padding: 0 40px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    .logo-area a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+
+    .logo-img {
+      width: 110px;
+      height: auto;
+    }
+
+    .menu-category-group {
+      display: flex;
+      gap: 190px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .menu-item {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: #222;
+      transition: color 0.2s;
+    }
+
+    .hover-purple:hover {
+      color: #8b5cf6;
+    }
+
+    .auth-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      border: 1px solid #8b5cf6;
+      background: white;
+      color: #8b5cf6;
+    }
+
+    .btn-primary:hover {
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .btn-secondary {
+      border: 1px solid #aaa;
+      background: white;
+      color: #222;
+    }
+
+    .btn-secondary:hover {
+      background: #f4f4f4;
+    }
+
+    /* Main layout */
+    main {
+      display: grid;
+      grid-template-columns: 280px 1fr 1fr;
+      gap: 20px;
+      padding: 20px 40px;
+      height: calc(100vh - 80px);
+      align-items: start;
+      min-width: 1120px;
+    }
+
+    aside {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    aside h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .profile-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 16px;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-box h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .profile-edit {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.85rem;
+      color: #666;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .profile-edit:hover {
+      color: #333;
+    }
+
+    .question-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .question-list-header h3 {
+      margin-bottom: 0;
+    }
+
+    .search-input {
+      width: 120px;
+      padding: 2px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-bottom: -20px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #999;
+    }
+
+    .profile-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    .memo {
+      width: 100%;
+      height: 100px;
+      min-height: 100px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+    }
+
+    .question-list,
+    .fav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .question-item {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .question-item:hover {
+      background: #f8f8f8;
+    }
+
+    .star {
+      color: #ddd;
+      font-size: 1.2rem;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      background: none;
+      padding: 0;
+      margin-left: 8px;
+      transition: color 0.2s;
+    }
+
+    .star:hover {
+      color: #fbbf24;
+    }
+
+    .star.active {
+      color: gold;
+    }
+
+    /* Center: 추천 질문 목록 */
+    main > div {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-section {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .question-section h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    main > div > h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+      margin-top: 0;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .generate-btn {
+      float: right;
+      border: 1px solid #aaa;
+      background: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .generate-btn:hover {
+      background: #f4f4f4;
+    }
+
+    .question-list-box {
+      margin-top: 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .question-row {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    .question-row.active {
+      background: #f0f0f0;
+    }
+
+    /* Right: 연습하기 */
+    .practice-section {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .practice-section h2,
+    .practice-section h3 {
+      margin-top: 0;
+    }
+
+    .practice-section h3 {
+      margin-top: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      min-height: 150px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 10px;
+      padding: 8px;
+      resize: vertical;
+    }
+
+    .btn-group {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 1px solid #aaa;
+      background: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f4f4f4;
+    }
+
+    .feedback-box {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 10px;
+      margin-top: 12px;
+      font-size: 0.9rem;
+      background: #fafafa;
+      flex: 1;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <header class="header-main">
+    <nav class="nav-container">
+      <!-- 로고 클릭 시 메인 페이지로 이동 -->
+        <div class="logo-area">
+          <a href="index.html">
+            <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+          </a>
+        </div>      <!-- 메뉴 -->
+      <div class="menu-category-group">
+        <a href="ai_interview.html" class="menu-item hover-purple">
+          맞춤형 커리어 디자인🖥️
+        </a>
+        <a href="mentoring.html" class="menu-item hover-purple">
+          멘토링🤝🏼
+        </a>
+        <a href="headhunting.html" class="menu-item hover-purple">
+          헤드 헌팅🏢
+        </a>
+      </div>
+
+      <!-- 로그인 / 회원가입 -->
+      <div class="auth-group">
+        <a href="#cta" class="btn btn-primary">로그인</a>
+        <a href="#cta" class="btn btn-secondary">회원가입</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 왼쪽 영역 -->
+    <aside>
+      <div class="profile-box">
+        <img class="profile-img" src="https://www.gravatar.com/avatar/?d=mp&s=100" alt="기본 프로필 이미지">
+        <div class="profile-info">
+          <h3>이가윤님</h3>
+          <a href="profile.html" class="profile-edit">
+            <span>⚙️</span>
+            <span>회원정보 수정</span>
+          </a>
+        </div>
+      </div>
+      <textarea class="memo" placeholder="메모"></textarea>
+
+      <h3>즐겨찾기 해둔 질문</h3>
+      <div class="fav-list" id="favList">
+        <p style="color: #999; font-size: 0.85rem;">아직 즐겨찾기 해둔 질문이 없습니다.</p>
+      </div>
+
+      <div class="question-list-header">
+        <h3>질문 목록</h3>
+        <input type="text" class="search-input" id="searchInput" placeholder="검색">
+      </div>
+      <div class="question-list" id="submittedQuestionList">
+        <p style="color: #999; font-size: 0.85rem;">제출된 질문이 없습니다.</p>
+      </div>
+    </aside>
+
+    <!-- 중앙 영역 -->
+    <div>
+      <h2>AI 면접 연습 
+        <button class="generate-btn" id="generateBtn">질문 생성</button>
+      </h2>
+      <section class="question-section">
+        <h3 class="section-title">추천 질문 목록</h3>
+        <div class="question-list-box" id="questionBox">
+          <p id="placeholder">'질문 생성' 버튼을 눌러 시작하세요.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- 오른쪽 영역 -->
+    <div>
+      <h2>연습하기</h2>
+      <section class="practice-section">
+        <p>현재 질문: <span id="currentQuestion"></span></p>
+        <textarea id="answerInput" placeholder="답변을 작성해보세요."></textarea>
+
+      <div class="btn-group">
+        <button id="submitBtn">제출 & 피드백</button>
+        <button id="resetBtn">초기화</button>
+      </div>
+
+      <h3>피드백 히스토리</h3>
+      <div class="feedback-box" id="feedbackBox">
+        아직 제출된 답변이 없습니다.
+      </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const questionBox = document.getElementById("questionBox");
+    const currentQuestion = document.getElementById("currentQuestion");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const feedbackBox = document.getElementById("feedbackBox");
+    const answerInput = document.getElementById("answerInput");
+    const submittedQuestionList = document.getElementById("submittedQuestionList");
+    const favList = document.getElementById("favList");
+    const searchInput = document.getElementById("searchInput");
+
+    const questions = [
+      "자기소개를 해보세요.",
+      "최근에 해결한 어려운 문제와 접근 방식을 설명해 주세요.",
+      "5년 뒤 본인의 커리어를 어떻게 그리고 있나요?",
+      "자바스크립트로 성능 문제를 어떻게 대처하나요?"
+    ];
+
+    let currentIndex = 0;
+    let submittedQuestions = [];
+    let favoriteQuestions = [];
+
+    // ① 기본 상태 → 질문 생성
+    generateBtn.addEventListener("click", () => {
+      questionBox.innerHTML = "";
+      currentIndex = 0;
+      submittedQuestions = [];
+      submittedQuestionList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">제출된 질문이 없습니다.</p>';
+      
+      questions.forEach((q, i) => {
+        const div = document.createElement("div");
+        div.classList.add("question-row");
+        div.textContent = `${i + 1}. ${q}`;
+        div.addEventListener("click", () => {
+          document.querySelectorAll(".question-row").forEach(row => row.classList.remove("active"));
+          div.classList.add("active");
+          currentQuestion.textContent = q;
+          currentIndex = i;
+        });
+        questionBox.appendChild(div);
+      });
+      
+      // 첫 번째 질문 자동 선택
+      const firstQuestion = questionBox.querySelector(".question-row");
+      if (firstQuestion) {
+        firstQuestion.classList.add("active");
+        currentQuestion.textContent = questions[0];
+      }
+    });
+
+    // ② 답변 제출 → 피드백 표시
+    submitBtn.addEventListener("click", () => {
+      const q = currentQuestion.textContent;
+      const a = answerInput.value.trim();
+      if (!q || !a) {
+        alert("답변을 작성해주세요!");
+        return;
+      }
+
+      feedbackBox.innerHTML = `
+        <p><b>Q.</b> ${q}</p>
+        <p><b>A.</b> <b>${a}</b></p>
+        <p style="margin-top:8px;"><span style="color:#2563eb; font-weight:600;">피드백 :</span> <span style="color:#2563eb;">답변에 구체성이나 핵심 키워드가 부족합니다.<br>경험 기반 예시를 추가해보세요.</span></p>
+      `;
+
+      // 제출된 질문을 좌측 질문 목록에 추가
+      if (!submittedQuestions.includes(q)) {
+        submittedQuestions.push(q);
+        
+        // 첫 번째 질문이면 안내 메시지 제거
+        if (submittedQuestions.length === 1) {
+          submittedQuestionList.innerHTML = '';
+        }
+        
+        const questionItem = document.createElement("div");
+        questionItem.classList.add("question-item");
+        
+        const questionText = document.createElement("span");
+        questionText.textContent = q;
+        
+        const starBtn = document.createElement("button");
+        starBtn.classList.add("star");
+        starBtn.innerHTML = "☆";
+        starBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleFavorite(q, starBtn);
+        });
+        
+        questionItem.appendChild(questionText);
+        questionItem.appendChild(starBtn);
+        submittedQuestionList.appendChild(questionItem);
+      }
+
+      // 답변 입력란 초기화
+      answerInput.value = "";
+
+      // 다음 질문으로 자동 이동
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        const allRows = questionBox.querySelectorAll(".question-row");
+        allRows.forEach(row => row.classList.remove("active"));
+        allRows[currentIndex].classList.add("active");
+        currentQuestion.textContent = questions[currentIndex];
+      } else {
+        alert("모든 질문을 완료했습니다!");
+      }
+    });
+
+    // 즐겨찾기 토글 함수
+    function toggleFavorite(question, starBtn) {
+      const index = favoriteQuestions.indexOf(question);
+      
+      if (index === -1) {
+        // 즐겨찾기에 추가
+        favoriteQuestions.push(question);
+        starBtn.innerHTML = "★";
+        starBtn.classList.add("active");
+        
+        // 즐겨찾기 목록 업데이트
+        if (favoriteQuestions.length === 1) {
+          favList.innerHTML = '';
+        }
+        
+        const favItem = document.createElement("div");
+        favItem.classList.add("question-item");
+        favItem.dataset.question = question;
+        
+        const favText = document.createElement("span");
+        favText.textContent = question;
+        
+        const favStar = document.createElement("span");
+        favStar.classList.add("star", "active");
+        favStar.innerHTML = "★";
+        
+        favItem.appendChild(favText);
+        favItem.appendChild(favStar);
+        favList.appendChild(favItem);
+      } else {
+        // 즐겨찾기에서 제거
+        favoriteQuestions.splice(index, 1);
+        starBtn.innerHTML = "☆";
+        starBtn.classList.remove("active");
+        
+        // 즐겨찾기 목록에서 제거
+        const favItem = favList.querySelector(`[data-question="${question}"]`);
+        if (favItem) {
+          favItem.remove();
+        }
+        
+        // 즐겨찾기 목록이 비었으면 안내 메시지 표시
+        if (favoriteQuestions.length === 0) {
+          favList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">아직 즐겨찾기 해둔 질문이 없습니다.</p>';
+        }
+      }
+    }
+
+    // ③ 초기화 → 첫 화면 복귀
+    resetBtn.addEventListener("click", () => {
+      questionBox.innerHTML = '<p id="placeholder">직무/레벨을 입력하고 \'질문 생성\' 버튼을 눌러 시작하세요.</p>';
+      currentQuestion.textContent = "";
+      answerInput.value = "";
+      feedbackBox.innerHTML = "아직 제출된 답변이 없습니다.";
+      currentIndex = 0;
+      submittedQuestions = [];
+      submittedQuestionList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">제출된 질문이 없습니다.</p>';
+      favoriteQuestions = [];
+      favList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">아직 즐겨찾기 해둔 질문이 없습니다.</p>';
+    });
+
+    // 검색 기능
+    searchInput.addEventListener("input", (e) => {
+      const keyword = e.target.value.toLowerCase().trim();
+      const questionItems = submittedQuestionList.querySelectorAll(".question-item");
+      
+      if (keyword === "") {
+        // 검색어가 없으면 모든 질문 표시
+        questionItems.forEach(item => {
+          item.style.display = "flex";
+        });
+      } else {
+        // 검색어가 있으면 필터링
+        let hasVisibleItem = false;
+        questionItems.forEach(item => {
+          const questionText = item.querySelector("span").textContent.toLowerCase();
+          if (questionText.includes(keyword)) {
+            item.style.display = "flex";
+            hasVisibleItem = true;
+          } else {
+            item.style.display = "none";
+          }
+        });
+        
+        // 검색 결과가 없을 때 메시지 표시
+        if (!hasVisibleItem && questionItems.length > 0) {
+          const noResultMsg = submittedQuestionList.querySelector(".no-result");
+          if (!noResultMsg) {
+            const msg = document.createElement("p");
+            msg.className = "no-result";
+            msg.style.color = "#999";
+            msg.style.fontSize = "0.85rem";
+            msg.textContent = "검색 결과가 없습니다.";
+            submittedQuestionList.appendChild(msg);
+          }
+        } else {
+          const noResultMsg = submittedQuestionList.querySelector(".no-result");
+          if (noResultMsg) {
+            noResultMsg.remove();
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

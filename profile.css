@@ -1,0 +1,325 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+body {
+  background: #f6f6f6;
+  color: #222;
+}
+
+/* Slightly reduce base font size for a more compact appearance */
+body {
+  font-size: 14px; /* slightly smaller than default */
+}
+
+/* Header */
+.header-main {
+  display: flex;
+  justify-content: center;
+  padding: 0 40px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.logo-area a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.logo-img {
+  width: 110px;
+  height: auto;
+}
+
+.menu-category-group {
+  display: flex;
+  gap: 190px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.menu-item {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #222;
+  transition: color 0.2s;
+}
+
+.hover-purple:hover {
+  color: #8b5cf6;
+}
+
+.auth-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  border: 1px solid #8b5cf6;
+  background: white;
+  color: #8b5cf6;
+}
+
+.btn-primary:hover {
+  background: #8b5cf6;
+  color: white;
+}
+
+.btn-secondary {
+  border: 1px solid #aaa;
+  background: white;
+  color: #222;
+}
+
+.btn-secondary:hover {
+  background: #f4f4f4;
+}
+
+/* 메인 컨테이너 */
+.profile-container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* 상단 프로필 */
+.profile-top {
+  display: flex;
+  gap: 20px;
+  padding: 30px;
+  border-bottom: 1px solid #ddd;
+  background: #fafafa;
+}
+
+.profile-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Ensure inline SVG fills the circular container */
+.profile-img svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-info a {
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* inline membership label next to name */
+.membership {
+  font-size: 0.95rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Add spacing between membership line, spec link, and intro box */
+.profile-info .pro-tag {
+  margin-bottom: 12px; /* space after membership row */
+}
+
+.profile-info .spec-link {
+  margin-bottom: 12px; /* space after the spec link */
+}
+
+.intro-box {
+  margin-top: 8px; /* ensure there's breathing room above intro box */
+}
+
+.profile-info a:hover {
+  text-decoration: underline;
+}
+
+.intro-box textarea {
+  width: 100%;
+  height: 80px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 6px;
+  padding: 8px;
+  resize: none;
+}
+
+/* Intro upload title — plain black text */
+.intro-box .upload-title {
+  color: #111;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Upload actions row under the textarea */
+.upload-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #38bdf8;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.upload-btn input[type="file"] {
+  display: none;
+}
+
+.upload-btn:hover {
+  background: #0ea5e9;
+}
+
+/* Specific links to appear in sky-blue to match save button */
+.membership-link,
+.membership-link:link,
+.membership-link:visited,
+.link-blue,
+.link-blue:link,
+.link-blue:visited {
+  color: #38bdf8; /* sky-blue (default state) */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.membership-link:hover,
+.link-blue:hover {
+  color: #0ea5e9; /* hover state */
+  text-decoration: underline;
+}
+
+/* 개인정보 수정 폼 */
+.profile-detail {
+  padding: 30px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 16px;
+}
+
+.form-row label {
+  width: 150px;
+  font-weight: 600;
+}
+
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="date"] {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.phone-inputs input {
+  width: 70px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.save-btn-wrap {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.save-btn {
+  background: #38bdf8; /* match spec.html save button (sky-blue) */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background: #0ea5e9; /* slightly darker sky-blue on hover */
+}
+
+/* modal styles */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  z-index: 9999;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px 24px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 260px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #111827;
+  margin: 0 0 12px 0;
+}
+
+.modal-content .save-btn {
+  padding: 8px 20px;
+}

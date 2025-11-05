@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YourConnect | 프로필 설정</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+  <header class="header-main">
+    <nav class="nav-container">
+      <!-- 로고 클릭 시 메인 페이지로 이동 -->
+      <div class="logo-area">
+        <a href="index.html">
+          <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+        </a>
+      </div>
+    </div>
+
+      <!-- 로그인 / 회원가입 -->
+      <div class="auth-group">
+        <a href="#cta" class="btn btn-primary">로그인</a>
+        <a href="#cta" class="btn btn-secondary">회원가입</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="profile-container">
+    <!-- 상단 프로필 요약 -->
+    <section class="profile-top">
+      <div class="profile-left">
+        <!-- Default profile avatar (inline SVG) -->
+        <div class="profile-img" aria-hidden="true">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.5" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.2" />
+            <path d="M4 21c1.5-4 6.5-6 8-6s6.5 2 8 6" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.2" />
+          </svg>
+        </div>
+      </div>
+      <div class="profile-info">
+  <h2 class="name">이가윤 <span class="membership">멘토로 가입했어요! / 멘티로 가입했어요!</span></h2>
+        <p class="pro-tag">멤버십 구분: <strong>PRO</strong> <a href="#" class="membership-link">멤버십 관리 페이지 바로가기 &gt;</a></p>
+  <p class="spec-link"><a href="./spec.html" target="_blank" rel="noopener" class="link-blue">내가 가진 스펙 작성하기 &gt;</a></p>
+        <div class="intro-box">
+          <p class="upload-title">자기소개 작성하기</p>
+          <textarea placeholder="자기소개 내용을 여기에 입력하세요."></textarea>
+          <div class="upload-actions">
+            <label class="upload-btn">파일 업로드
+              <input type="file" id="introFile" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 개인정보 수정 영역 -->
+    <section class="profile-detail">
+      <form>
+        <div class="form-row">
+          <label>전화번호</label>
+          <div class="phone-inputs">
+            <input type="text" value="010"> -
+            <input type="text" maxlength="4"> -
+            <input type="text" maxlength="4">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>이메일</label>
+          <input type="email" placeholder="example@email.com">
+        </div>
+
+        <div class="form-row">
+          <label>생년월일</label>
+          <input type="date">
+        </div>
+
+        <div class="form-row">
+          <label>성별</label>
+          <label><input type="radio" name="gender"> 남자</label>
+          <label><input type="radio" name="gender"> 여자</label>
+        </div>
+
+        <div class="form-row">
+          <label>마케팅 수신 동의</label>
+          <label><input type="radio" name="marketing"> 동의</label>
+          <label><input type="radio" name="marketing"> 비동의</label>
+        </div>
+
+        <div class="save-btn-wrap">
+          <button type="submit" class="save-btn">저장하기</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- 저장 팝업 모달 -->
+  <div id="saveModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <p id="modalTitle">정보가 저장되었습니다</p>
+      <button id="modalOk" class="save-btn">확인</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('.profile-detail form');
+      const modal = document.getElementById('saveModal');
+      const okBtn = document.getElementById('modalOk');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault(); // prevent actual form submission for demo
+        // show modal
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('open');
+      });
+
+      okBtn.addEventListener('click', function () {
+        // hide modal
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+    });
+  </script>
+</body>
+</html>
