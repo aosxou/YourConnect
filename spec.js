@@ -69,7 +69,7 @@ const data = {
     ],
     companies: ["대기업", "중견기업", "중소기업", "외국계", "공기업", "벤처기업"],
     regions: [
-        "전국", "서울", "경기", "인천", "대전", "세종", "충남", "충북", "광주",
+        "서울", "경기", "인천", "대전", "세종", "충남", "충북", "광주",
         "전남", "전북", "대구", "경북", "부산", "울산", "경남", "강원", "제주"
     ]
 };
@@ -92,30 +92,11 @@ function toggleSelect(item, category, max = null) {
     const key = `selected${category}`;
     const selectedItems = state[key];
 
-    // Special handling for Regions: if '전국' is selected, other regions cannot be selected.
-    if (category === 'Regions') {
-        if (item === '전국') {
-            // toggle nationwide
-            if (selectedItems.includes('전국')) {
-                state[key] = [];
-            } else {
-                state[key] = ['전국'];
-            }
-            renderButtons(category.toLowerCase());
-            updateCounters();
-            return;
-        }
-
-        // If nationwide already selected, prevent selecting other regions
-        if (state.selectedRegions.includes('전국')) {
-            return;
-        }
-    }
-
+    // 단일 선택 모드: 이미 선택된 항목 클릭 시 해제, 다른 항목 클릭 시 교체
     if (selectedItems.includes(item)) {
-        state[key] = selectedItems.filter(i => i !== item);
-    } else if (!max || selectedItems.length < max) {
-        state[key] = [...selectedItems, item];
+        state[key] = [];
+    } else {
+        state[key] = [item];
     }
 
     // UI 업데이트
@@ -136,16 +117,15 @@ function renderButtons(category) {
             return '<button class="separator"></button>';
         }
 
-        // Regions: if '전국' selected, disable other region buttons
-        if (category === 'regions' && state.selectedRegions.includes('전국') && item !== '전국') {
-            return `<button class="disabled">${item}</button>`;
-        }
-
         const isSelected = selectedItems.includes(item);
+        // 단일 선택: 하나 선택되면 다른 버튼들 비활성화
+        const isDisabled = !isSelected && selectedItems.length > 0;
+        
         return `
             <button
-                class="${isSelected ? 'selected' : ''}"
+                class="${isSelected ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}"
                 onclick="toggleSelect('${item}', '${capitalized}', ${getMaxSelection(category)})"
+                ${isDisabled ? 'disabled' : ''}
             >
                 ${item}
             </button>
@@ -156,11 +136,11 @@ function renderButtons(category) {
 // 최대 선택 개수 반환
 function getMaxSelection(category) {
     const maxSelections = {
-        ranks: 3,
+        ranks: 1,
         careers: 1,
-        jobs: 5,
-        companies: 2,
-        regions: 2
+        jobs: 1,
+        companies: 1,
+        regions: 1
     };
     return maxSelections[category];
 }

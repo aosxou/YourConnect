@@ -116,7 +116,7 @@ function getMaxSelection(category) {
     const maxSelections = {
         ranks: 3,
         careers: 1,
-        jobs: 5,      // match label (0/5)
+        jobs: 5,
         companies: 2,
         regions: 2
     };
@@ -551,6 +551,9 @@ function filterJobCards() {
     const keyword = state.searchKeyword.toLowerCase();
     const totalCountEl = document.getElementById('total-count');
     
+    // 항상 메시지 상태 확인 및 초기화
+    let noResultMsg = document.querySelector('.no-result-message');
+    
     if (!keyword) {
         // No keyword: show all cards, no pagination
         jobCards.forEach(card => {
@@ -559,6 +562,11 @@ function filterJobCards() {
         
         if (totalCountEl) {
             totalCountEl.textContent = '총 6,402건';
+        }
+        
+        // 메시지 숨김
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
         }
         
         // Hide pagination when no search
@@ -590,10 +598,34 @@ function filterJobCards() {
         totalCountEl.textContent = `총 ${totalVisible}건`;
     }
     
+    // 0건일 때 메시지 표시/숨김 처리 (검색어 기반)
+    if (!noResultMsg) {
+        noResultMsg = document.querySelector('.no-result-message');
+    }
+    if (totalVisible === 0) {
+        if (!noResultMsg) {
+            noResultMsg = document.createElement('div');
+            noResultMsg.className = 'no-result-message';
+            noResultMsg.textContent = '조건에 일치하는 공고가 존재하지 않습니다.';
+            const jobList = document.querySelector('.job-list');
+            const pagination = document.querySelector('.pagination');
+            if (jobList && pagination) {
+                jobList.insertBefore(noResultMsg, pagination);
+            }
+        }
+        noResultMsg.style.display = 'block';
+    } else {
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
+        }
+    }
+    
     // Show pagination if needed (45+ items or more than one page needed)
     const pagination = document.querySelector('.pagination');
     if (pagination) {
-        if (totalVisible >= 45 || totalVisible > state.itemsPerPage) {
+        if (totalVisible === 0) {
+            pagination.style.display = 'none';
+        } else if (totalVisible >= 45 || totalVisible > state.itemsPerPage) {
             pagination.style.display = 'flex';
         } else {
             pagination.style.display = 'none';
@@ -621,6 +653,9 @@ function filterJobCardsByConditions() {
     const jobCards = document.querySelectorAll('.job-card');
     const totalCountEl = document.getElementById('total-count');
     
+    // 메시지 요소를 함수 시작 부분에서 가져오기
+    let noResultMsg = document.querySelector('.no-result-message');
+    
     // Check if any conditions are selected
     const hasConditions = state.selectedRanks.length > 0 || 
                           state.selectedCareers.length > 0 || 
@@ -636,6 +671,11 @@ function filterJobCardsByConditions() {
         
         if (totalCountEl) {
             totalCountEl.textContent = '총 6,402건';
+        }
+        
+        // 메시지 숨김
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
         }
         
         // Hide pagination when no filter
@@ -769,10 +809,34 @@ function filterJobCardsByConditions() {
         totalCountEl.textContent = `총 ${totalVisible}건`;
     }
     
+    // 0건일 때 메시지 표시/숨김 처리 (조건 필터 기반)
+    if (!noResultMsg) {
+        noResultMsg = document.querySelector('.no-result-message');
+    }
+    if (totalVisible === 0) {
+        if (!noResultMsg) {
+            noResultMsg = document.createElement('div');
+            noResultMsg.className = 'no-result-message';
+            noResultMsg.textContent = '조건에 일치하는 공고가 존재하지 않습니다.';
+            const jobList = document.querySelector('.job-list');
+            const pagination = document.querySelector('.pagination');
+            if (jobList && pagination) {
+                jobList.insertBefore(noResultMsg, pagination);
+            }
+        }
+        noResultMsg.style.display = 'block';
+    } else {
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
+        }
+    }
+    
     // Show pagination if needed (45+ items or more than one page needed)
     const pagination = document.querySelector('.pagination');
     if (pagination) {
-        if (totalVisible >= 45 || totalVisible > state.itemsPerPage) {
+        if (totalVisible === 0) {
+            pagination.style.display = 'none';
+        } else if (totalVisible >= 45 || totalVisible > state.itemsPerPage) {
             pagination.style.display = 'flex';
         } else {
             pagination.style.display = 'none';
@@ -855,3 +919,232 @@ function applyCurrentFilter() {
         }
     }
 }
+
+// 드롭다운 토글 기능
+document.addEventListener('DOMContentLoaded', function() {
+    const collapsibleLabel = document.querySelector('.collapsible-label');
+    const collapsibleContent = document.querySelector('.collapsible-content');
+    const toggleBtn = document.querySelector('.toggle-btn');
+    const toggleText = document.querySelector('.toggle-text');
+
+    if (collapsibleLabel && collapsibleContent && toggleBtn && toggleText) {
+        toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            collapsibleContent.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('expanded');
+            
+            if (toggleBtn.classList.contains('expanded')) {
+                toggleText.textContent = '접기';
+            } else {
+                toggleText.textContent = '펼쳐보기';
+            }
+        });
+    }
+    
+    // 보유 스펙 검색 버튼 기능
+    const specSearchBtn = document.querySelector('.spec-search-btn');
+    if (specSearchBtn) {
+        specSearchBtn.addEventListener('click', function() {
+            filterJobsBySpec();
+        });
+    }
+});
+
+// 보유 스펙 기반 필터링 함수
+function filterJobsBySpec() {
+    const allJobCards = document.querySelectorAll('.job-card');
+    let visibleCount = 0;
+    
+    // 검색어 입력창 초기화
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    // 보유 스펙에서 선택된 값들 가져오기 (하드코딩된 예시값)
+    const specRank = "파트장/그룹장";
+    const specCareer = "3~5년"; // 3, 4, 5년 해당
+    const specCompany = "중견기업";
+    const specJob = "개발자";
+    const specRegion = "서울";
+    
+    // 경력 범위 파싱
+    const careerRange = parseCareerRange(specCareer);
+    
+    allJobCards.forEach(card => {
+        const jobInfo = card.querySelector('.job-info p').textContent;
+        
+        // 각 조건 체크
+        const matchesCareer = checkCareerMatch(jobInfo, careerRange);
+        const matchesCompany = checkCompanyMatch(card.querySelector('.job-info h4').textContent, specCompany);
+        const matchesJob = checkJobMatch(jobInfo, specJob);
+        const matchesRegion = checkRegionMatch(jobInfo, specRegion);
+        
+        // 모든 조건이 맞으면 표시
+        if (matchesCareer && matchesCompany && matchesJob && matchesRegion) {
+            card.style.display = 'flex';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // 총 건수 업데이트
+    const totalCountEl = document.getElementById('total-count');
+    if (totalCountEl) {
+        totalCountEl.textContent = `총 ${visibleCount}건`;
+    }
+    
+    // 페이지네이션 업데이트
+    updatePaginationForSpec(visibleCount);
+    
+    // 0건일 때 메시지 표시
+    let noResultMsg = document.querySelector('.no-result-message');
+    if (visibleCount === 0) {
+        if (!noResultMsg) {
+            noResultMsg = document.createElement('div');
+            noResultMsg.className = 'no-result-message';
+            noResultMsg.textContent = '조건에 일치하는 공고가 존재하지 않습니다.';
+            const jobList = document.querySelector('.job-list');
+            const pagination = document.querySelector('.pagination');
+            if (jobList && pagination) {
+                jobList.insertBefore(noResultMsg, pagination);
+            }
+        }
+        noResultMsg.style.display = 'block';
+    } else {
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
+        }
+    }
+}
+
+// 보유 스펙 검색 결과에 따른 페이지네이션 업데이트
+function updatePaginationForSpec(totalCount) {
+    const pagination = document.querySelector('.pagination');
+    if (!pagination) return;
+    
+    // 0건이면 페이지네이션 숨기기
+    if (totalCount === 0) {
+        pagination.style.display = 'none';
+        return;
+    }
+    
+    pagination.style.display = 'flex';
+    
+    // 페이지당 9건 기준으로 필요한 페이지 수 계산
+    const itemsPerPage = 9;
+    const totalPages = Math.ceil(totalCount / itemsPerPage);
+    
+    // 페이지 번호 버튼들 가져오기
+    const pageButtons = pagination.querySelectorAll('.pagination-num');
+    const prevBtn = pagination.querySelector('.pagination-prev');
+    const nextBtn = pagination.querySelector('.pagination-next');
+    
+    // 각 페이지 버튼 활성화/비활성화
+    pageButtons.forEach((btn, index) => {
+        const pageNum = index + 1;
+        if (pageNum <= totalPages) {
+            btn.style.display = 'inline-block';
+            btn.disabled = false;
+            btn.classList.remove('disabled');
+            // 첫 페이지 활성화
+            if (pageNum === 1) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        } else {
+            btn.style.display = 'none';
+        }
+    });
+    
+    // 이전/다음 버튼 상태
+    if (prevBtn) {
+        prevBtn.classList.add('disabled');
+        prevBtn.disabled = true;
+    }
+    
+    if (nextBtn) {
+        if (totalPages <= 1) {
+            nextBtn.classList.add('disabled');
+            nextBtn.disabled = true;
+        } else {
+            nextBtn.classList.remove('disabled');
+            nextBtn.disabled = false;
+        }
+    }
+}
+
+// 경력 범위 파싱 (예: "3~5년" -> [3, 4, 5])
+function parseCareerRange(careerStr) {
+    if (careerStr === "1년~3년") return [1, 2, 3];
+    if (careerStr === "3년~5년") return [3, 4, 5];
+    if (careerStr === "5년~7년") return [5, 6, 7];
+    if (careerStr === "7년~10년") return [7, 8, 9, 10];
+    if (careerStr === "10년~15년") return [10, 11, 12, 13, 14, 15];
+    if (careerStr === "15년~") return Array.from({length: 20}, (_, i) => i + 15); // 15~35년
+    return [];
+}
+
+// 경력 매칭 체크
+function checkCareerMatch(jobInfo, careerRange) {
+    // "경력: 5년 이상" 또는 "경력: 3년" 등의 패턴 파싱
+    const careerMatch = jobInfo.match(/경력:\s*(\d+)년/);
+    if (!careerMatch) return false;
+    
+    const jobCareerYears = parseInt(careerMatch[1]);
+    return careerRange.includes(jobCareerYears);
+}
+
+// 기업 형태 매칭 체크
+function checkCompanyMatch(jobTitle, specCompany) {
+    const companyKeywords = {
+        "대기업": ["대기업"],
+        "중견기업": ["중견기업"],
+        "중소기업": ["중소기업"],
+        "외국계": ["외국계"],
+        "공기업": ["공기업", "공공기관"],
+        "벤처기업": ["벤처", "스타트업"]
+    };
+    
+    const keywords = companyKeywords[specCompany] || [];
+    return keywords.some(keyword => jobTitle.includes(keyword));
+}
+
+// 직무 매칭 체크
+function checkJobMatch(jobInfo, specJob) {
+    // "직무: 프론트엔드 개발" 등의 패턴에서 직무 추출
+    const jobMatch = jobInfo.match(/직무:\s*([^|]+)/);
+    if (!jobMatch) return false;
+    
+    const jobText = jobMatch[1].trim();
+    
+    // 직무 키워드 매칭
+    const jobKeywords = {
+        "개발자": ["개발", "프론트엔드", "백엔드", "풀스택", "FE", "BE"],
+        "PM/PO/기획자": ["기획", "PM", "PO"],
+        "데이터 분석가": ["데이터", "분석"],
+        "인프라/클라우드": ["인프라", "클라우드", "시스템", "운영"],
+        "UI/UX": ["디자인", "UI", "UX"],
+        "마케터": ["마케팅", "마케터"],
+        "QA/테스터": ["QA", "테스트"],
+        "HR/리크루터": ["HR", "인사"]
+    };
+    
+    const keywords = jobKeywords[specJob] || [specJob];
+    return keywords.some(keyword => jobText.includes(keyword));
+}
+
+// 지역 매칭 체크
+function checkRegionMatch(jobInfo, specRegion) {
+    // "지역: 서울" 등의 패턴에서 지역 추출
+    const regionMatch = jobInfo.match(/지역:\s*([^|]+)/);
+    if (!regionMatch) return false;
+    
+    const regionText = regionMatch[1].trim();
+    return regionText.includes(specRegion);
+}
+

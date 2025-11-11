@@ -116,6 +116,79 @@ body {
 
 .profile-edit:hover { color: #333; }
 
+/* 보유 스펙 박스 */
+.spec-summary-box {
+    margin-bottom: 20px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.spec-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.spec-items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    line-height: 1.8;
+}
+
+.spec-item-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+}
+
+.spec-items strong {
+    color: #374151;
+    font-size: 0.95rem;
+}
+
+.spec-tag {
+    color: #38bdf8;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.spec-search-btn {
+    background: #38bdf8;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.spec-search-btn:hover {
+    background: #0ea5e9;
+}
+
+.filter-section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+    margin-top: 0;
+}
+
 .filter-group {
     margin-bottom: 16px;
     padding: 16px;
@@ -130,6 +203,65 @@ body {
     color: #374151;
     display: block;
     font-weight: 600;
+}
+
+/* 드롭다운 기능을 위한 스타일 */
+.collapsible-label {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    width: 100%;
+}
+
+.toggle-icon {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+    margin-left: auto;
+}
+
+.toggle-icon.rotated {
+    transform: rotate(45deg);
+}
+
+.toggle-btn {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: auto;
+}
+
+.toggle-btn:hover {
+    background: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+.toggle-text::before {
+    content: '+ ';
+    font-weight: bold;
+}
+
+.toggle-btn.expanded .toggle-text::before {
+    content: '− ';
+}
+
+.collapsible-content {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
 }
 
 /* Main Content */
@@ -320,9 +452,20 @@ section h3 {
 /* -------------------------------------------------
    🔍 검색 영역
 ------------------------------------------------- */
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-group label {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
 .filter-group input[type="text"] {
   padding: 6px 8px;
-  width: 70%;
+  flex: 1;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 13px;
@@ -333,10 +476,11 @@ section h3 {
   color: #fff;
   border: none;
   padding: 6px 12px;
-  margin-left: 8px;
+  margin-left: 0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .search-btn:hover {
@@ -348,10 +492,11 @@ section h3 {
   color: #fff;
   border: none;
   padding: 6px 12px;
-  margin-left: 8px;
+  margin-left: 0;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .reset-btn:hover {
@@ -446,6 +591,19 @@ section h3 {
 
 .apply-btn:hover {
     background: #0ea5e9;
+}
+
+/* 검색 결과 없음 메시지 */
+.no-result-message {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+    font-size: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #f9fafb;
+    margin-top: 20px;
 }
 
 /* 페이지네이션 */
