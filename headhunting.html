@@ -1,225 +1,200 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YourConnect | 헤드헌팅</title>
-  <link rel="stylesheet" href="headhunting.css">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>YourConnect | 헤드헌팅</title>
+	<link rel="stylesheet" href="headhunting.css">
 </head>
 <body>
-  <!-- 헤더 -->
-  <header class="header-main">
-    <nav class="nav-container">
-      <!-- 로고 클릭 시 메인 페이지로 이동 -->
-        <div class="logo-area">
-          <a href="index.html">
-            <img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
-          </a>
-        </div>      <!-- 메뉴 -->
-      <div class="menu-category-group">
-        <a href="index.html" class="menu-item hover-purple">
-          맞춤형 커리어 디자인🖥️
-        </a>
-        <a href="mentoring.html" class="menu-item hover-purple">
-          멘토링🤝🏼
-        </a>
-        <a href="headhunting.html" class="menu-item hover-purple">
-          헤드 헌팅🏢
-        </a>
+	<!-- 헤더 -->
+	<header class="header-main">
+		<nav class="nav-container">
+			<!-- 로고 클릭 시 메인 페이지로 이동 -->
+			<div class="logo-area">
+				<a href="index.html">
+					<img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" />
+				</a>
+			</div>
+			<!-- 메뉴 -->
+			<div class="menu-category-group">
+				<a href="index.html" class="menu-item hover-purple">
+					맞춤형 커리어 디자인🖥️
+				</a>
+				<a href="mentoring.html" class="menu-item hover-purple">
+					멘토링🤝🏼
+				</a>
+				<a href="headhunting.html" class="menu-item hover-purple">
+					헤드 헌팅🏢
+				</a>
+			</div>
+		<!-- 로그아웃 -->
+		<div class="auth-group">
+			<a href="#cta" class="btn btn-secondary">로그아웃</a>
+		</div>
+		</nav>
+	</header>
+
+	<!-- 상단 우측 프로필 박스 제거 -->
+
+	<!-- 메인 -->
+  <main class="headhunt-layout">
+      <aside class="headhunt-sidebar">
+		<div class="profile-box">
+			<img class="profile-img" src="https://www.gravatar.com/avatar/?d=mp&s=100" alt="기본 프로필 이미지">
+      <div class="profile-info">
+        <h3>이가윤님</h3>
+        <p><a href="#">회원정보 수정 ⚙️</a></p>
       </div>
+    </div>
 
-      <!-- 로그인 / 회원가입 -->
-      <div class="auth-group">
-        <a href="#cta" class="btn btn-primary">로그인</a>
-        <a href="#cta" class="btn btn-secondary">회원가입</a>
+    <div class="sidebar-box">
+      <div class="sidebar-header">
+        <strong>스크랩한 공고</strong>
+        <span>0건</span>
       </div>
-    </nav>
-  </header>
+      <div class="sidebar-content">스크랩한 공고가 없습니다.</div>
+    </div>
 
-  <!-- 메인 -->
-  <main class="headhunt-container">
-    <h2>헤드헌팅 채용 정보</h2>
-
-    <!-- 필터 -->
-    <section class="filter-section">
-      <div class="filter-group">
-        <label>직급 / 직책 (<span id="ranks-count">0</span>/3)</label>
-        <div class="grid" id="ranks-grid"></div>
+    <div class="sidebar-box">
+      <div class="sidebar-header">
+        <strong>최근 본 공고</strong>
+        <span>0건</span>
       </div>
+      <div class="sidebar-content">최근 본 공고가 없습니다.</div>
+    </div>
+  </aside>
+	<div class="headhunt-content">
+		<h2>헤드헌팅 채용 정보</h2>
+		<!-- 필터 -->
+		<section class="filter-section isolated">
+			<div class="filter-group">
+				<label>직급 / 직책 (<span id="ranks-count">0</span>/3)</label>
+				<div class="grid" id="ranks-grid"></div>
+			</div>
 
-      <div class="filter-group">
-        <label>경력 (<span id="careers-count">0</span>/1)</label>
-        <div class="grid" id="careers-grid"></div>
-      </div>
+			<div class="filter-group">
+				<label>경력 (<span id="careers-count">0</span>/1)</label>
+				<div class="grid" id="careers-grid"></div>
+			</div>
 
-      <div class="filter-group">
-        <label>직무 (<span id="jobs-count">0</span>/3)</label>
-        <div class="grid" id="jobs-grid"></div>
-      </div>
+			<div class="filter-group">
+				<label>직무 (<span id="jobs-count">0</span>/5)</label>
+				<div class="grid" id="jobs-grid"></div>
+			</div>
 
-      <div class="filter-group">
-        <label>기업형태 (<span id="companies-count">0</span>/2)</label>
-        <div class="grid" id="companies-grid"></div>
-      </div>
+			<div class="filter-group">
+				<label>기업형태 (<span id="companies-count">0</span>/2)</label>
+				<div class="grid" id="companies-grid"></div>
+			</div>
 
-      <div class="filter-group">
-        <label>근무지역 (<span id="regions-count">0</span>/2)</label>
-        <div class="grid" id="regions-grid"></div>
-      </div>
+			<div class="filter-group">
+				<label>근무지역 (<span id="regions-count">0</span>/2)</label>
+				<div class="grid" id="regions-grid"></div>
+			</div>
 
-      <div class="filter-group">
-        <label>검색어</label>
-        <input type="text" placeholder="채용직무, 기업명, 키워드 등을 입력하세요.">
-        <button class="search-btn">검색</button>
-      </div>
-    </section>
+			<section class="selected">
+				<label>선택된 조건</label>
+				<div class="selected-chips"></div>
+				<p class="selected-placeholder">현재 선택된 조건이 없습니다.</p>
+			</section>
+		</section>		<!-- 검색어 박스 (위치 교체됨) -->
+		<div class="filter-group">
+			<label>검색어</label>
+			<input type="text" id="search-input" placeholder="채용직무, 기업명, 키워드 등을 입력하세요.">
+			<button class="search-btn" id="search-btn">검색</button>
+			<button class="reset-btn" id="reset-btn">초기화</button>
+		</div>
 
-    <!-- 선택 조건 -->
-    <section class="selected">
-      <label>선택된 조건</label>
-      <p>현재 선택된 조건이 없습니다.</p>
-    </section>
+		<!-- 채용 공고 목록 -->
+		<section class="job-list">
+			<h3 id="total-count">총 6,402건</h3>
 
-    <!-- 채용 공고 목록 -->
-    <section class="job-list">
-      <h3>총 6,402건</h3>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>보령 [경기] IT 디지털 기획 과장, 차장급 구함 (국가사업)</h4>
+					<p>직무: IT 기획 | 경력: 8년 이상 | 지역: 경기 | 등록일: 10/27</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>보령 [경기] IT 디지털 기획 과장, 차장급 구함 (국가사업)</h4>
-          <p>직무: IT 기획 | 경력: 8년 이상 | 지역: 경기 | 등록일: 10/27</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>[파견/2개월/강남] 대기업 솔루션 업체 프론트엔드 개발자 고급 모집</h4>
+					<p>직무: 프론트엔드 개발 | 경력: 7년 이상 | 지역: 서울 | 등록일: 10/20</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>[파견/2개월/강남] 대기업 솔루션 업체 프론트엔드 개발자 고급 모집</h4>
-          <p>직무: 프론트엔드 개발 | 경력: 7년 이상 | 지역: 서울 | 등록일: 10/20</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>[파견/2개월/서대문] 공공기관 java 풀스택 개발자 중급 모집</h4>
+					<p>직무: 백엔드 개발 | 경력: 5년 이상 | 지역: 서울 | 등록일: 09/30</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>[파견/2개월/서대문] 공공기관 java 풀스택 개발자 중급 모집</h4>
-          <p>직무: 백엔드 개발 | 경력: 5년 이상 | 지역: 서울 | 등록일: 09/30</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>[파견/2개월/서대문] 공공기관 java 풀스택 개발자 중급 모집</h4>
+					<p>직무: 백엔드 개발 | 경력: 5년 이상 | 지역: 서울 | 등록일: 09/30</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>[파견/2개월/서대문] 공공기관 java 풀스택 개발자 중급 모집</h4>
-          <p>직무: 백엔드 개발 | 경력: 5년 이상 | 지역: 서울 | 등록일: 09/30</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>유한양행 [인천] IT 시스템 운영, 관리 담당자 모집</h4>
+					<p>직무: IT 운영 | 경력: 8년 이상 | 지역: 인천 | 등록일: 09/15</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>유한양행 [인천] IT 시스템 운영, 관리 담당자 모집</h4>
-          <p>직무: IT 운영 | 경력: 8년 이상 | 지역: 인천 | 등록일: 09/15</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>보험 대기업 인프라 운영, 관리(미들웨어) 대리급 구함 (굿커리어)</h4>
+					<p>직무: 데이터 관리 | 경력: 3년 이상 | 지역: 서울 | 등록일: 08/26</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>보험 대기업 인프라 운영, 관리(미들웨어) 대리급 구함 (굿커리어)</h4>
-          <p>직무: 데이터 관리 | 경력: 3년 이상 | 지역: 서울 | 등록일: 08/26</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>클라우드 실행 본부 PM (10년 이상)</h4>
+					<p>직무: 클라우드 관리 | 경력: 10년 이상 | 지역: 서울 | 등록일: 08/18</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>클라우드 실행 본부 PM (10년 이상)</h4>
-          <p>직무: 클라우드 관리 | 경력: 10년 이상 | 지역: 서울 | 등록일: 08/18</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>유명 리걸테크기업 백엔드 개발팀장(차/부장급)</h4>
+					<p>직무: 백엔드 개발 | 경력: 8년 이상 | 지역: 서울 | 등록일: 07/29</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>유명 리걸테크기업 백엔드 개발팀장(차/부장급)</h4>
-          <p>직무: 백엔드 개발 | 경력: 8년 이상 | 지역: 서울 | 등록일: 07/29</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+			<div class="job-card">
+				<div class="job-info">
+					<h4>[긴급] IT 정보보호 담당 (8~15년)</h4>
+					<p>직무: 정보보안 | 경력: 8년 이상 | 지역: 서울 | 등록일: 07/29</p>
+				</div>
+				<button class="apply-btn">지원 공고 확인</button>
+			</div>
 
-      <div class="job-card">
-        <div class="job-info">
-          <h4>[긴급] IT 정보보호 담당 (8~15년)</h4>
-          <p>직무: 정보보안 | 경력: 8년 이상 | 지역: 서울 | 등록일: 07/29</p>
-        </div>
-        <button class="apply-btn">지원 공고 확인</button>
-      </div>
+      
+			<div class="pagination">
+				<button class="pagination-prev disabled" disabled>&lt;</button>
+				<button class="pagination-num active" data-page="1">1</button>
+				<button class="pagination-num" data-page="2">2</button>
+				<button class="pagination-num" data-page="3">3</button>
+				<button class="pagination-num" data-page="4">4</button>
+				<button class="pagination-num" data-page="5">5</button>
+				<button class="pagination-next">&gt;</button>
+			</div>
+		</section>
+	</main>
 
-      <div class="pagination">
-        <button>&lt;</button>
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>&gt;</button>
-      </div>
-    </section>
-  </main>
-  <script src="headhunting.js"></script>
-
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  // 각 필터 그룹 탐색
-  document.querySelectorAll(".filter-group").forEach(group => {
-    const label = group.querySelector("label");
-    const buttons = group.querySelectorAll("button");
-    if (!label || buttons.length === 0) return;
-
-    // 괄호 안의 최대 개수 추출 (예: (0/3) → 3)
-    const match = label.textContent.match(/\(.*?\/(\d+)\)/);
-    const maxSelect = match ? parseInt(match[1]) : null;
-
-    // 선택된 버튼 상태 관리
-    buttons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        // 이미 선택된 버튼이면 선택 해제
-        if (btn.classList.contains("selected")) {
-          btn.classList.remove("selected");
-        } 
-        // 새로운 버튼 선택
-        else {
-          const selected = group.querySelectorAll("button.selected").length;
-          if (!maxSelect || selected < maxSelect) {
-            btn.classList.add("selected");
-          }
-        }
-
-        // 현재 선택 개수 갱신
-        const currentCount = group.querySelectorAll("button.selected").length;
-        const newText = label.textContent.replace(/\(\d+\/\d+\)/, `(${currentCount}/${maxSelect})`);
-        label.textContent = newText;
-
-        // 최대 선택 시 나머지 버튼 비활성화
-        if (maxSelect && currentCount >= maxSelect) {
-          buttons.forEach(b => {
-            if (!b.classList.contains("selected")) {
-              b.classList.add("disabled");
-              b.disabled = true;
-            }
-          });
-        } else {
-          buttons.forEach(b => {
-            b.classList.remove("disabled");
-            b.disabled = false;
-          });
-        }
-      });
-    });
-  });
-});
-</script>
-
+	<script src="headhunting.js"></script>
 </body>
 </html>

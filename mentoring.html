@@ -20,15 +20,17 @@
     .header-main {
       display: flex;
       justify-content: center;
+      align-items: center; /* ✅ 수직 정렬 추가 */
       padding: 0 40px;
       border-bottom: 1px solid #ddd;
-      background: #fff; /* headhunting 설정과 동일 */
+      background: #fff;
+      height: 80px; /* ✅ 고정 높이로 균일한 헤더 유지 */
     }
 
     .nav-container {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center; /* ✅ 수직 정렬 통일 */
       width: 100%;
       max-width: 1400px;
     }
@@ -37,19 +39,20 @@
       display: flex;
       align-items: center;
       text-decoration: none;
-      margin-top: 10px;
+      margin: 0; /* ✅ 여백 제거 */
     }
 
     .logo-img {
       width: 110px;
       height: auto;
+      display: block;
     }
 
     .menu-category-group {
       display: flex;
       gap: 190px;
       align-items: center;
-      margin-top: 10px;
+      margin: 0; /* ✅ 여백 제거 */
     }
 
     .menu-item {
@@ -67,8 +70,8 @@
     .auth-group {
       display: flex;
       gap: 12px;
-      align-items: center;
-      margin-top: 10px;
+      align-items: center; /* ✅ 정렬 추가 */
+      margin: 0; /* ✅ 여백 제거 */
     }
 
     .btn {
@@ -113,7 +116,7 @@
     /* 왼쪽 - 멘토 카드 */
     .mentor-grid {
       display: grid;
-      grid-template-columns: repeat(3, 280px); /* 한 줄에 3칸, 비율 유지한 채 크기 확대 */
+      grid-template-columns: repeat(3, 1fr); /* 3열 균등 분배 */
       gap: 20px;
       justify-content: start; /* 좌측 정렬 유지 */
       padding-right: 0; /* 사이드바와 더 가깝게 */
@@ -124,7 +127,7 @@
       border: 1px solid #ddd;
       border-radius: 10px;
       padding: 18px 18px 22px 18px; /* 크기 확대에 맞춰 여백 증가 */
-      min-height: 210px; /* 세로 길이 약간 증가 */
+      min-height: 50px; /* 세로 길이 50px로 축소 */
       display: flex;
       align-items: flex-start;
       gap: 16px; /* 내부 간격 소폭 증가 */
@@ -182,7 +185,7 @@
 
     .mentor-card p {
       margin: 0;
-      font-size: 1rem; /* 비례 확대 */
+      font-size: 0.85rem; /* 전문 분야 글자 크기 축소 */
       color: #555;
     }
 
@@ -195,10 +198,11 @@
     .mentor-card .btn {
       border: 1px solid #ccc;
       background: white;
-      padding: 4px 9px; /* 조금만 더 축소 */
-      border-radius: 9999px; /* 더 라운드 (필 형태) */
-      font-size: 0.8rem; /* 조금만 더 축소 */
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .mentor-card .btn:hover {
@@ -207,10 +211,79 @@
 
     /* 오른쪽 사이드 */
     aside {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 프로필 박스 */
+    .profile-box {
+      display: flex;
+      align-items: center;
+      background: #fff;
       border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 16px;
-      height: fit-content;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .profile-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-info h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #111;
+    }
+
+    .profile-info a {
+      font-size: 0.85rem;
+      color: #6b7280;
+      text-decoration: none;
+    }
+
+    .profile-info a:hover {
+      color: #38bdf8;
+    }
+
+    /* 사이드바 공통 박스 */
+    .sidebar-box {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      min-height: 220px;
+    }
+
+    .sidebar-box-tall {
+      min-height: 280px;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+    }
+
+    .sidebar-content {
+      font-size: 0.9rem;
+      color: #6b7280;
+      border-top: 1px solid #eee;
+      padding-top: 8px;
     }
 
     aside h4 {
@@ -253,6 +326,21 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    /* 확인 모달 버튼 정렬 및 보조 버튼 스타일 */
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .modal-content .secondary {
+      background: #f0f0f0;
+      color: #222;
+      border: 1px solid #ccc;
+    }
+    .modal-content .secondary:hover {
+      background: #e8e8e8;
+    }
   </style>
 </head>
 <body>
@@ -277,8 +365,7 @@
       </div>
 
       <div class="auth-group">
-        <a href="#cta" class="btn btn-primary">로그인</a>
-        <a href="#cta" class="btn btn-secondary">회원가입</a>
+        <a href="#cta" class="btn btn-secondary">로그아웃</a>
       </div>
     </nav>
   </header>
@@ -289,18 +376,49 @@
     </section>
 
     <aside>
-      <h4>이가윤님 👩🏻‍💻</h4>
-      <p>회원정보 수정</p>
-      <hr />
-      <h4>분야 선택</h4>
-      <p>개발자 / PM / 디자이너</p>
-      <hr />
-      <h4>멘토링 진행 상태</h4>
-      <p>요청 대기 / 수락됨</p>
+      <div class="profile-box">
+        <img class="profile-img" src="https://www.gravatar.com/avatar/?d=mp&s=100" alt="기본 프로필 이미지">
+        <div class="profile-info">
+          <h3>이가윤님</h3>
+          <p><a href="profile.html">회원정보 수정 ⚙️</a></p>
+        </div>
+      </div>
+
+      <div class="sidebar-box">
+        <div class="sidebar-header">
+          <strong>분야 선택</strong>
+        </div>
+        <div class="sidebar-content">개발자 / PM / 디자이너</div>
+      </div>
+
+      <div class="sidebar-box">
+        <div class="sidebar-header">
+          <strong>멘토링 진행 상태</strong>
+        </div>
+        <div class="sidebar-content">요청 대기 / 수락됨</div>
+      </div>
+
+      <div class="sidebar-box sidebar-box-tall">
+        <div class="sidebar-header">
+          <strong>즐겨찾기 해둔 멘토</strong>
+        </div>
+        <div class="sidebar-content">아직 즐겨찾기 해둔 멘토가 없습니다.</div>
+      </div>
     </aside>
   </main>
+  <!-- 확인 모달 -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content">
+      <h2>멘토링 신청</h2>
+      <p><span id="confirmMentorName"></span>님에게 멘토링을 신청하시겠습니까?</p>
+      <div class="modal-actions">
+        <button id="confirmAgreeBtn">확인</button>
+        <button id="confirmCancelBtn" class="secondary">닫기</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- 모달 -->
+  <!-- 요청 모달 -->
   <div class="modal" id="requestModal">
     <div class="modal-content" id="modalContent">
       <h2>멘토링 요청 대기 중...</h2>
@@ -318,10 +436,15 @@
       { name: "정재윤", field: "AI 개발자 / 연구원", rating: 4.9, ratingCount: 187 }
     ];
 
-    const mentorGrid = document.getElementById("mentorGrid");
-    const modal = document.getElementById("requestModal");
-    const modalContent = document.getElementById("modalContent");
-    const mentorNameEl = document.getElementById("mentorName");
+  const mentorGrid = document.getElementById("mentorGrid");
+  const modal = document.getElementById("requestModal");
+  const modalContent = document.getElementById("modalContent");
+  // 확인 모달 요소들
+  const confirmModal = document.getElementById("confirmModal");
+  const confirmMentorNameEl = document.getElementById("confirmMentorName");
+  const confirmAgreeBtn = document.getElementById("confirmAgreeBtn");
+  const confirmCancelBtn = document.getElementById("confirmCancelBtn");
+  let pendingMentorName = "";
 
     // 멘토 카드 생성
     mentors.forEach(m => {
@@ -338,7 +461,7 @@
           </div>
           <div class="mentor-info">
             <h3>${m.name}</h3>
-            <p>전문 분야: ${m.field}</p>
+            <p style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">전문 분야: ${m.field}</p>
           </div>
         </div>
         <div class="mentor-btns">
@@ -349,27 +472,54 @@
       mentorGrid.appendChild(card);
     });
 
-    // 멘토링 신청 클릭 이벤트
+    // 멘토링 신청 클릭 시 확인 모달 먼저 표시
     document.querySelectorAll(".applyBtn").forEach(btn => {
       btn.addEventListener("click", e => {
-        const name = e.target.closest(".mentor-card").querySelector("h3").textContent;
-        mentorNameEl.textContent = name;
-        modal.style.display = "flex";
-
-        // 3초 뒤 자동으로 '수락 완료'로 변경
-        setTimeout(() => {
-          modalContent.innerHTML = `
-            <h2 style="color:#00a36c;">수락 완료</h2>
-            <p>${name}님이 멘토 요청을 수락하였습니다.</p>
-            <button onclick="window.location.href='mentoring_chat.html'">대화하기</button>
-          `;
-        }, 3000);
+        const name = e.target.closest(".mentor-card").querySelector("h3").textContent.trim();
+        pendingMentorName = name;
+        confirmMentorNameEl.textContent = name;
+        confirmModal.style.display = "flex";
       });
+    });
+
+    // 확인 모달 - 확인 클릭 시 요청 모달 표시 후 진행
+    confirmAgreeBtn.addEventListener("click", () => {
+      confirmModal.style.display = "none";
+      // 요청 대기 템플릿이 아니면 초기 템플릿으로 복원
+      if (!modalContent.querySelector("#mentorName")) {
+        modalContent.innerHTML = `
+          <h2>멘토링 요청 대기 중...</h2>
+          <p><span id="mentorName"></span>님께 멘토링을 요청했습니다.</p>
+        `;
+      }
+      const nameSpan = modalContent.querySelector("#mentorName");
+      if (nameSpan) nameSpan.textContent = pendingMentorName;
+      modal.style.display = "flex";
+
+      // 3초 뒤 자동으로 '수락 완료'로 변경
+      setTimeout(() => {
+        modalContent.innerHTML = `
+          <h2 style=\"color:#00a36c;\">수락 완료</h2>
+          <p>${pendingMentorName}님이 멘토 요청을 수락하였습니다.</p>
+          <button onclick=\"window.location.href='mentoring_chat.html'\">대화하기</button>
+        `;
+      }, 3000);
+    });
+
+    // 확인 모달 - 닫기 버튼
+    confirmCancelBtn.addEventListener("click", () => {
+      confirmModal.style.display = "none";
+      pendingMentorName = "";
     });
 
     // 모달 클릭 시 닫기
     modal.addEventListener("click", e => {
       if (e.target === modal) modal.style.display = "none";
+    });
+
+    // 확인 모달 바깥 클릭 시 닫기
+    confirmModal.addEventListener("click", e => {
+      if (e.target === confirmModal) confirmModal.style.display = "none";
     });
   </script>
 </body>

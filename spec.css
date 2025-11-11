@@ -2,14 +2,17 @@
 .header-main {
     display: flex;
     justify-content: center;
+    align-items: center; /* ✅ 수직 정렬 추가 */
     padding: 0 40px;
     border-bottom: 1px solid #ddd;
+    background: #fff;
+    height: 80px; /* ✅ 고정 높이로 균일한 헤더 유지 */
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; /* ✅ 수직 정렬 통일 */
     width: 100%;
     max-width: 1400px;
 }
@@ -18,19 +21,20 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin-top: 10px;
+    margin: 0; /* ✅ 여백 제거 */
 }
 
 .logo-img {
     width: 110px;
     height: auto;
+    display: block;
 }
 
 .menu-category-group {
     display: flex;
     gap: 190px;
     align-items: center;
-    margin-top: 10px;
+    margin: 0; /* ✅ 여백 제거 */
 }
 
 .menu-item {
@@ -48,7 +52,8 @@
 .auth-group {
     display: flex;
     gap: 12px;
-    margin-top: 10px;
+    align-items: center; /* ✅ 정렬 추가 */
+    margin: 0; /* ✅ 여백 제거 */
 }
 
 .btn {
