@@ -208,7 +208,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #38bdf8;
+  background: #2563eb;
   color: #fff;
   padding: 6px 12px;
   border-radius: 8px;
@@ -221,7 +221,7 @@ body {
 }
 
 .upload-btn:hover {
-  background: #0ea5e9;
+  background: #1d4ed8;
 }
 
 /* Specific links to appear in sky-blue to match save button */
@@ -282,7 +282,7 @@ body {
 }
 
 .save-btn {
-  background: #38bdf8; /* match spec.html save button (sky-blue) */
+  background: #2563eb; /* brand blue */
   color: white;
   padding: 10px 20px;
   border: none;
@@ -292,7 +292,7 @@ body {
 }
 
 .save-btn:hover {
-  background: #0ea5e9; /* slightly darker sky-blue on hover */
+  background: #1d4ed8; /* darker blue on hover */
 }
 
 /* modal styles */
@@ -327,4 +327,86 @@ body {
 
 .modal-content .save-btn {
   padding: 8px 20px;
+}
+
+/* 스펙 표시 박스 스타일 */
+.spec-display-box {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.spec-display-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.spec-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.career-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.career-info {
+  font-size: 0.95rem;
+  color: #374151;
+  flex: 1;
+}
+
+.career-info strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.total-career {
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1e40af;
+}
+
+.total-career strong {
+  font-weight: 700;
+}
+
+.no-spec-message {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin: 0;
 }

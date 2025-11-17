@@ -143,42 +143,154 @@ body {
     line-height: 1.8;
 }
 
-.spec-item-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
+/* 보유 스펙 섹션 */
+.spec-summary-section {
+    margin-bottom: 30px;
+}
+
+.spec-summary-section h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+/* 헤드헌팅 스펙 박스 */
+.headhunt-spec-box {
+    background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    background: #f9fafb;
+    overflow: hidden;
+    margin-bottom: 16px;
 }
 
-.spec-items strong {
-    color: #374151;
-    font-size: 0.95rem;
+.headhunt-spec-box:last-child {
+    margin-bottom: 0;
 }
 
-.spec-tag {
-    color: #38bdf8;
-    font-size: 0.95rem;
-    font-weight: 700;
-}
-
-.spec-search-btn {
-    background: #38bdf8;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+.headhunt-spec-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
     cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-    white-space: nowrap;
+    user-select: none;
     transition: background-color 0.2s;
 }
 
-.spec-search-btn:hover {
-    background: #0ea5e9;
+.headhunt-spec-header:hover {
+    background: #f3f4f6;
+}
+
+.headhunt-spec-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.headhunt-spec-info .preview-company {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.headhunt-spec-info .preview-career {
+    color: #374151;
+}
+
+.headhunt-spec-info .preview-modified {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.headhunt-spec-header .toggle-icon {
+    color: #6b7280;
+    font-size: 0.9rem;
+    transition: transform 0.3s;
+    user-select: none;
+}
+
+.headhunt-spec-content {
+    font-size: 0.95rem;
+    max-height: 500px;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+    opacity: 1;
+    padding: 16px 20px;
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+}
+
+.headhunt-spec-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 20px;
+}
+
+/* 스펙 아이템 - spec.css와 동일 */
+.headhunt-spec-content .spec-section {
+    padding: 0;
+}
+
+.headhunt-spec-content .spec-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #f3f4f6;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.headhunt-spec-content .spec-item:last-child {
+    border-bottom: none;
+}
+
+.headhunt-spec-content .spec-item strong {
+    color: #374151;
+    margin-right: 8px;
+    min-width: 80px;
+    display: inline-block;
+}
+
+/* 선택 버튼 */
+.headhunt-spec-content .spec-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 15px;
+}
+
+.headhunt-spec-content .edit-spec-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: #2563eb;
+    color: white;
+}
+
+.headhunt-spec-content .edit-spec-btn:hover {
+    background: #1d4ed8;
+}
+
+.select-spec-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: #2563eb;
+    color: white;
+}
+
+.select-spec-btn:hover {
+    background: #1d4ed8;
 }
 
 .filter-section-title {
@@ -337,9 +449,9 @@ section h3 {
 }
 
 .grid button.selected {
-    background: #38bdf8; /* 버튼 색상과 통일 (지원 공고/검색) */
+    background: #2563eb; /* 버튼 색상과 통일 (지원 공고/검색) */
     color: #fff;
-    border-color: #38bdf8;
+    border-color: #2563eb;
 }
 
 .grid button.disabled {
@@ -365,7 +477,7 @@ section h3 {
 }
 
 .save-btn {
-    background: #38bdf8; /* 하늘색 */
+    background: #2563eb; /* 변경: 브랜드 블루 */
     color: #fff;
     padding: 12px 24px;
     border: none;
@@ -376,7 +488,7 @@ section h3 {
 }
 
 .save-btn:hover {
-    background: #0ea5e9; /* 조금 더 진한 하늘색 */
+    background: #1d4ed8; /* 조금 더 진한 블루 */
 }
 
 /* 반응형 디자인 */
@@ -472,7 +584,7 @@ section h3 {
 }
 
 .search-btn {
-  background: #38bdf8;
+    background: #2563eb;
   color: #fff;
   border: none;
   padding: 6px 12px;
@@ -484,7 +596,7 @@ section h3 {
 }
 
 .search-btn:hover {
-  background: #0ea5e9;
+    background: #1d4ed8;
 }
 
 .reset-btn {
@@ -517,9 +629,9 @@ section h3 {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: #38bdf8;   /* 선택 버튼 색상과 통일 */
+    background: #2563eb;   /* 선택 버튼 색상과 통일 */
     color: #fff;
-    border: 1px solid #38bdf8;
+    border: 1px solid #2563eb;
     border-radius: 9999px;
     padding: 6px 10px;
     font-size: 13px;
@@ -578,7 +690,7 @@ section h3 {
 }
 
 .apply-btn {
-    background: #38bdf8;
+    background: #2563eb;
     color: #fff;
     border: none;
     padding: 8px 16px;
@@ -590,7 +702,7 @@ section h3 {
 }
 
 .apply-btn:hover {
-    background: #0ea5e9;
+    background: #1d4ed8;
 }
 
 /* 검색 결과 없음 메시지 */
@@ -631,9 +743,9 @@ section h3 {
 }
 
 .pagination button.active {
-    background: #38bdf8;
+    background: #2563eb;
     color: #fff;
-    border-color: #38bdf8;
+    border-color: #2563eb;
 }
 
 .pagination button.disabled {

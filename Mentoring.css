@@ -1,4 +1,93 @@
 /* Mentoring.css */
+
+/* Header */
+.header-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 40px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+    height: 80px;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.logo-area a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin: 0;
+}
+
+.logo-img {
+    width: 110px;
+    height: auto;
+    display: block;
+}
+
+.menu-category-group {
+    display: flex;
+    gap: 190px;
+    align-items: center;
+    margin: 0;
+}
+
+.menu-item {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: #222;
+    transition: color 0.2s;
+}
+
+.hover-purple:hover {
+    color: #8b5cf6;
+}
+
+.auth-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin: 0;
+}
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    border: 1px solid #8b5cf6;
+    background: white;
+    color: #8b5cf6;
+}
+
+.btn-primary:hover {
+    background: #8b5cf6;
+    color: white;
+}
+
+.btn-secondary {
+    border: 1px solid #aaa;
+    background: white;
+    color: #222;
+}
+
+.btn-secondary:hover {
+    background: #f4f4f4;
+}
+
 .mentoring-page {
   min-height: 100vh;
   background: #fff;

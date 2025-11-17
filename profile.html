@@ -22,10 +22,9 @@
         <a href="headhunting.html" class="menu-item hover-purple">헤드 헌팅🏢</a>
       </div>
 
-      <!-- 로그인 / 회원가입 -->
+      <!-- 로그아웃 -->
       <div class="auth-group">
-        <a href="#cta" class="btn btn-primary">로그인</a>
-        <a href="#cta" class="btn btn-secondary">회원가입</a>
+        <a href="#logout" class="btn btn-secondary">로그아웃</a>
       </div>
     </nav>
   </header>
@@ -43,16 +42,14 @@
         </div>
       </div>
       <div class="profile-info">
-  <h2 class="name">이가윤 <span class="membership">멘토로 가입했어요! / 멘티로 가입했어요!</span></h2>
-        <p class="pro-tag">멤버십 구분: <strong>PRO</strong> <a href="#" class="membership-link">멤버십 관리 페이지 바로가기 &gt;</a></p>
-  <p class="spec-link"><a href="./spec.html" class="link-blue">내가 가진 스펙 작성하기 &gt;</a></p>
-        <div class="intro-box">
-          <p class="upload-title">자기소개 작성하기</p>
-          <textarea placeholder="자기소개 내용을 여기에 입력하세요."></textarea>
-          <div class="upload-actions">
-            <label class="upload-btn">파일 업로드
-              <input type="file" id="introFile" />
-            </label>
+  <h2 class="name">이가윤 <span class="membership">멤버십 구분: <strong>PRO</strong></span></h2>
+        <p class="pro-tag"><a href="#" class="membership-link">멤버십 관리 페이지 바로가기 &gt;</a></p>
+        
+        <!-- 저장된 스펙 정보 표시 영역 -->
+        <div id="specDisplay" class="spec-display-box">
+          <h3 class="spec-display-title">내 스펙 정보</h3>
+          <div id="specContent" class="spec-content">
+            <!-- JavaScript로 동적 생성 -->
           </div>
         </div>
       </div>
@@ -107,25 +104,6 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.querySelector('.profile-detail form');
-      const modal = document.getElementById('saveModal');
-      const okBtn = document.getElementById('modalOk');
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault(); // prevent actual form submission for demo
-        // show modal
-        modal.setAttribute('aria-hidden', 'false');
-        modal.classList.add('open');
-      });
-
-      okBtn.addEventListener('click', function () {
-        // hide modal
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-      });
-    });
-  </script>
+  <script src="profile.js"></script>
 </body>
 </html>

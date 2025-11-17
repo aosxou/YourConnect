@@ -263,6 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize pagination to page 1 with prev button disabled
         updatePagination();
     }
+    
+    // Apply initial pagination to show only first 9 cards
+    applyCurrentFilter();
 });
 
 // Event delegation: toggle .selected when any grid or options button is clicked
@@ -391,54 +394,20 @@ document.addEventListener('DOMContentLoaded', () => {
             state.searchKeyword = '';
             state.currentPage = 1;
             
-            // If there are selected conditions, apply condition filter
-            // Otherwise show all cards
-            const hasConditions = state.selectedRanks.length > 0 || 
-                                  state.selectedCareers.length > 0 || 
-                                  state.selectedJobs.length > 0 || 
-                                  state.selectedCompanies.length > 0 || 
-                                  state.selectedRegions.length > 0;
-            
-            if (hasConditions) {
-                // Apply condition filtering
-                filterJobCardsByConditions();
-            } else {
-                // Show all job cards
-                const jobCards = document.querySelectorAll('.job-card');
-                jobCards.forEach(card => {
-                    card.style.display = 'flex';
-                });
-                // Reset total count
-                const totalCountEl = document.getElementById('total-count');
-                if (totalCountEl) {
-                    totalCountEl.textContent = '총 6,402건';
-                }
-                // Show pagination with all buttons enabled
-                const pagination = document.querySelector('.pagination');
-                if (pagination) {
-                    pagination.style.display = 'flex';
-                    
-                    // Reset pagination buttons to initial state
-                    const paginationNums = document.querySelectorAll('.pagination-num');
-                    paginationNums.forEach((btn, index) => {
-                        btn.classList.remove('disabled');
-                        btn.disabled = false;
-                        btn.classList.toggle('active', index === 0); // First page active
-                    });
-                    
-                    // Set prev/next buttons
-                    const prevBtn = document.querySelector('.pagination-prev');
-                    const nextBtn = document.querySelector('.pagination-next');
-                    if (prevBtn) {
-                        prevBtn.classList.add('disabled');
-                        prevBtn.disabled = true; // Disable prev on first page
-                    }
-                    if (nextBtn) {
-                        nextBtn.classList.remove('disabled');
-                        nextBtn.disabled = false;
-                    }
-                }
+            // Hide no-result message if visible
+            const noResultMsg = document.querySelector('.no-result-message');
+            if (noResultMsg) {
+                noResultMsg.style.display = 'none';
             }
+            
+            // Reset total count
+            const totalCountEl = document.getElementById('total-count');
+            if (totalCountEl) {
+                totalCountEl.textContent = '총 6,402건';
+            }
+            
+            // Apply current filter state (will handle pagination correctly)
+            applyCurrentFilter();
         });
     }
     
@@ -472,9 +441,22 @@ document.addEventListener('DOMContentLoaded', () => {
 // Get total number of pages based on visible cards
 function getTotalPages() {
     const allCards = document.querySelectorAll('.job-card');
-    let visibleCount = 0;
     
-    // Count currently visible cards
+    // Check if any filter is active
+    const hasFilter = state.searchKeyword || 
+                      state.selectedRanks.length > 0 || 
+                      state.selectedCareers.length > 0 || 
+                      state.selectedJobs.length > 0 || 
+                      state.selectedCompanies.length > 0 || 
+                      state.selectedRegions.length > 0;
+    
+    // If no filter, use total card count
+    if (!hasFilter) {
+        return Math.ceil(allCards.length / state.itemsPerPage);
+    }
+    
+    // With filter, count visible cards
+    let visibleCount = 0;
     allCards.forEach(card => {
         const style = window.getComputedStyle(card);
         if (style.display !== 'none') {
@@ -880,43 +862,29 @@ function applyCurrentFilter() {
         return;
     }
     
-    // No filters: show all cards
+    // No filters: apply pagination to all cards
     const jobCards = document.querySelectorAll('.job-card');
-    jobCards.forEach(card => {
-        card.style.display = 'flex';
-    });
-    
     const totalCountEl = document.getElementById('total-count');
     if (totalCountEl) {
         totalCountEl.textContent = '총 6,402건';
     }
     
-    // Reset to page 1
-    state.currentPage = 1;
+    // Apply pagination
+    const startIdx = (state.currentPage - 1) * state.itemsPerPage;
+    const endIdx = startIdx + state.itemsPerPage;
+    
+    jobCards.forEach((card, index) => {
+        if (index >= startIdx && index < endIdx) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
     
     const pagination = document.querySelector('.pagination');
     if (pagination) {
-        pagination.style.display = 'flex'; // Show pagination on initial state
-        
-        // Reset pagination buttons to initial state (all enabled, page 1 active)
-        const paginationNums = document.querySelectorAll('.pagination-num');
-        paginationNums.forEach((btn, index) => {
-            btn.classList.remove('disabled');
-            btn.disabled = false;
-            btn.classList.toggle('active', index === 0); // First page active
-        });
-        
-        // Enable prev/next buttons
-        const prevBtn = document.querySelector('.pagination-prev');
-        const nextBtn = document.querySelector('.pagination-next');
-        if (prevBtn) {
-            prevBtn.classList.add('disabled');
-            prevBtn.disabled = true; // Disable prev on first page
-        }
-        if (nextBtn) {
-            nextBtn.classList.remove('disabled');
-            nextBtn.disabled = false;
-        }
+        pagination.style.display = 'flex';
+        updatePagination();
     }
 }
 
@@ -943,14 +911,271 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 보유 스펙 검색 버튼 기능
-    const specSearchBtn = document.querySelector('.spec-search-btn');
-    if (specSearchBtn) {
-        specSearchBtn.addEventListener('click', function() {
-            filterJobsBySpec();
-        });
-    }
+    // 보유 스펙 박스에 저장된 스펙 표시
+    loadAndDisplaySpecs();
 });
+
+// 저장된 스펙 불러와서 표시
+function loadAndDisplaySpecs() {
+    const container = document.getElementById('specBoxesContainer');
+    if (!container) return;
+    
+    const savedSpecs = localStorage.getItem('userSpecs');
+    
+    if (!savedSpecs) {
+        container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">저장된 스펙이 없습니다.</p>';
+        return;
+    }
+    
+    try {
+        const parsed = JSON.parse(savedSpecs);
+        const specsArray = Array.isArray(parsed) ? parsed : [parsed];
+        
+        if (specsArray.length === 0) {
+            container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">저장된 스펙이 없습니다.</p>';
+            return;
+        }
+        
+        let html = '';
+        specsArray.forEach((spec, index) => {
+            const companyName = spec.companyName || '회사명 없음';
+            const career = spec.careers && spec.careers[0] ? spec.careers[0] : '경력 없음';
+            const savedDate = spec.savedAt ? new Date(spec.savedAt).toLocaleDateString('ko-KR') : '';
+            
+            html += `
+                <div class="headhunt-spec-box">
+                    <div class="headhunt-spec-header" onclick="toggleHeadhuntSpec('headhunt-spec-${spec.id}')">
+                        <div class="headhunt-spec-info">
+                            <span class="preview-company">${companyName}</span>
+                            <span class="preview-career">${career}</span>
+                            ${savedDate ? `<span class="preview-modified">${savedDate}</span>` : ''}
+                        </div>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div id="headhunt-spec-${spec.id}" class="headhunt-spec-content collapsed">
+                        <div class="spec-section">
+                            ${spec.ranks && spec.ranks.length > 0 ? `
+                                <div class="spec-item">
+                                    <strong>직급:</strong> ${spec.ranks.join(', ')}
+                                </div>
+                            ` : ''}
+                            ${spec.careers && spec.careers.length > 0 ? `
+                                <div class="spec-item">
+                                    <strong>경력:</strong> ${spec.careers.join(', ')}
+                                </div>
+                            ` : ''}
+                            ${spec.jobs && spec.jobs.length > 0 ? `
+                                <div class="spec-item">
+                                    <strong>직무:</strong> ${spec.jobs.join(', ')}
+                                </div>
+                            ` : ''}
+                            ${spec.companies && spec.companies.length > 0 ? `
+                                <div class="spec-item">
+                                    <strong>기업형태:</strong> ${spec.companies.join(', ')}
+                                </div>
+                            ` : ''}
+                            ${spec.regions && spec.regions.length > 0 ? `
+                                <div class="spec-item">
+                                    <strong>지역:</strong> ${spec.regions.join(', ')}
+                                </div>
+                            ` : ''}
+                            ${spec.companyName ? `
+                                <div class="spec-item">
+                                    <strong>회사명:</strong> ${spec.companyName}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="spec-actions">
+                            <button class="edit-spec-btn" onclick="editSpecFromHeadhunt('${spec.id}')">수정</button>
+                            <button class="select-spec-btn" onclick="selectSpecForSearch('${spec.id}')">선택</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+        
+    } catch (e) {
+        console.error('스펙 로드 오류:', e);
+        container.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">스펙 정보를 불러오는 중 오류가 발생했습니다.</p>';
+    }
+}
+
+// 헤드헌팅 스펙 박스 토글
+function toggleHeadhuntSpec(contentId) {
+    const content = document.getElementById(contentId);
+    const header = content?.previousElementSibling;
+    
+    if (content) {
+        content.classList.toggle('collapsed');
+        if (header) {
+            const icon = header.querySelector('.toggle-icon');
+            if (icon) {
+                icon.textContent = content.classList.contains('collapsed') ? '▼' : '▲';
+            }
+        }
+    }
+}
+
+// 스펙 선택하여 검색
+function selectSpecForSearch(specId) {
+    const savedSpecs = localStorage.getItem('userSpecs');
+    if (!savedSpecs) return;
+    
+    try {
+        const specsArray = JSON.parse(savedSpecs);
+        const spec = specsArray.find(s => s.id === specId);
+        if (!spec) return;
+        
+        // 스펙 조건을 키워드로 변환
+        const keywords = [];
+        
+        // 직군 추가
+        if (spec.jobs && spec.jobs.length > 0) {
+            keywords.push(...spec.jobs);
+        }
+        
+        // 회사명 추가
+        if (spec.companyName) {
+            keywords.push(spec.companyName);
+        }
+        
+        // 지역 추가
+        if (spec.regions && spec.regions.length > 0) {
+            keywords.push(...spec.regions);
+        }
+        
+        // 기업형태 추가
+        if (spec.companies && spec.companies.length > 0) {
+            keywords.push(...spec.companies);
+        }
+        
+        // 키워드를 검색창에 표시
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.value = keywords.join(' ');
+            
+            // 검색 실행
+            state.searchKeyword = keywords.join(' ');
+            state.currentPage = 1;
+            filterJobCards();
+        }
+        
+    } catch (e) {
+        console.error('스펙 선택 오류:', e);
+    }
+}
+
+// 헤드헌팅 페이지에서 스펙 수정 페이지로 이동
+function editSpecFromHeadhunt(specId) {
+    // 스펙 ID를 쿼리 파라미터로 전달하여 스펙 페이지로 이동
+    window.location.href = `./spec.html?edit=${specId}`;
+}
+
+// 선택된 스펙으로 공고 필터링
+function filterJobsBySelectedSpec(spec) {
+    const allJobCards = document.querySelectorAll('.job-card');
+    let visibleCount = 0;
+    
+    // 검색어 입력창 초기화
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.value = '';
+    }
+    
+    // 경력 범위 계산
+    let minCareer = null;
+    if (spec.careers && spec.careers.length > 0) {
+        const careerRange = parseCareerRange(spec.careers[0]);
+        if (careerRange) {
+            minCareer = careerRange.min;
+        }
+    }
+    
+    allJobCards.forEach(card => {
+        const jobInfo = card.querySelector('.job-info p').textContent;
+        const companyName = card.querySelector('.job-info h4').textContent;
+        
+        // 각 조건 체크
+        let matchesCareer = true;
+        if (minCareer !== null) {
+            matchesCareer = checkCareerMatch(jobInfo, { min: minCareer });
+        }
+        
+        let matchesCompany = !spec.companies || spec.companies.length === 0;
+        if (spec.companies && spec.companies.length > 0) {
+            for (let company of spec.companies) {
+                if (checkCompanyMatch(companyName, company)) {
+                    matchesCompany = true;
+                    break;
+                }
+            }
+        }
+        
+        let matchesJob = !spec.jobs || spec.jobs.length === 0;
+        if (spec.jobs && spec.jobs.length > 0) {
+            for (let job of spec.jobs) {
+                if (checkJobMatch(jobInfo, job)) {
+                    matchesJob = true;
+                    break;
+                }
+            }
+        }
+        
+        let matchesRegion = !spec.regions || spec.regions.length === 0;
+        if (spec.regions && spec.regions.length > 0) {
+            for (let region of spec.regions) {
+                if (checkRegionMatch(jobInfo, region)) {
+                    matchesRegion = true;
+                    break;
+                }
+            }
+        }
+        
+        // 모든 조건이 맞으면 표시
+        if (matchesCareer && matchesCompany && matchesJob && matchesRegion) {
+            card.style.display = 'flex';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+    
+    // 총 건수 업데이트
+    const totalCountEl = document.getElementById('total-count');
+    if (totalCountEl) {
+        totalCountEl.textContent = `총 ${visibleCount}건`;
+    }
+    
+    // 페이지네이션 업데이트
+    updatePaginationForSpec(visibleCount);
+    
+    // 0건일 때 메시지 표시
+    let noResultMsg = document.querySelector('.no-result-message');
+    if (visibleCount === 0) {
+        if (!noResultMsg) {
+            noResultMsg = document.createElement('div');
+            noResultMsg.className = 'no-result-message';
+            noResultMsg.textContent = '조건에 일치하는 공고가 존재하지 않습니다.';
+            const jobList = document.querySelector('.job-list');
+            const pagination = document.querySelector('.pagination');
+            if (jobList && pagination) {
+                jobList.insertBefore(noResultMsg, pagination);
+            }
+        }
+        noResultMsg.style.display = 'block';
+    } else {
+        if (noResultMsg) {
+            noResultMsg.style.display = 'none';
+        }
+    }
+}
+
+// 전역 함수로 등록
+window.toggleHeadhuntSpec = toggleHeadhuntSpec;
+window.selectSpecForSearch = selectSpecForSearch;
+window.editSpecFromHeadhunt = editSpecFromHeadhunt;
 
 // 보유 스펙 기반 필터링 함수
 function filterJobsBySpec() {
@@ -963,24 +1188,84 @@ function filterJobsBySpec() {
         searchInput.value = '';
     }
     
-    // 보유 스펙에서 선택된 값들 가져오기 (하드코딩된 예시값)
-    const specRank = "파트장/그룹장";
-    const specCareer = "3~5년"; // 3, 4, 5년 해당
-    const specCompany = "중견기업";
-    const specJob = "개발자";
-    const specRegion = "서울";
+    // localStorage에서 저장된 스펙들 불러오기
+    const savedSpecs = localStorage.getItem('userSpecs');
+    if (!savedSpecs) {
+        alert('저장된 스펙이 없습니다.');
+        return;
+    }
     
-    // 경력 범위 파싱
-    const careerRange = parseCareerRange(specCareer);
+    let specsArray = [];
+    try {
+        const parsed = JSON.parse(savedSpecs);
+        specsArray = Array.isArray(parsed) ? parsed : [parsed];
+    } catch (e) {
+        alert('스펙 정보를 불러오는 중 오류가 발생했습니다.');
+        return;
+    }
+    
+    if (specsArray.length === 0) {
+        alert('저장된 스펙이 없습니다.');
+        return;
+    }
+    
+    // 모든 스펙의 조건을 수집 (OR 조건으로 처리)
+    const allRanks = new Set();
+    const allJobs = new Set();
+    const allCompanies = new Set();
+    const allRegions = new Set();
+    let minCareer = null;
+    
+    specsArray.forEach(spec => {
+        if (spec.ranks) spec.ranks.forEach(r => allRanks.add(r));
+        if (spec.jobs) spec.jobs.forEach(j => allJobs.add(j));
+        if (spec.companies) spec.companies.forEach(c => allCompanies.add(c));
+        if (spec.regions) spec.regions.forEach(r => allRegions.add(r));
+        
+        // 최소 경력 계산
+        if (spec.careers && spec.careers.length > 0) {
+            const careerRange = parseCareerRange(spec.careers[0]);
+            if (careerRange) {
+                if (minCareer === null || careerRange.min < minCareer) {
+                    minCareer = careerRange.min;
+                }
+            }
+        }
+    });
     
     allJobCards.forEach(card => {
         const jobInfo = card.querySelector('.job-info p').textContent;
+        const companyName = card.querySelector('.job-info h4').textContent;
         
-        // 각 조건 체크
-        const matchesCareer = checkCareerMatch(jobInfo, careerRange);
-        const matchesCompany = checkCompanyMatch(card.querySelector('.job-info h4').textContent, specCompany);
-        const matchesJob = checkJobMatch(jobInfo, specJob);
-        const matchesRegion = checkRegionMatch(jobInfo, specRegion);
+        // 각 조건 체크 (OR 조건)
+        let matchesCareer = true;
+        if (minCareer !== null) {
+            matchesCareer = checkCareerMatch(jobInfo, { min: minCareer });
+        }
+        
+        let matchesCompany = allCompanies.size === 0;
+        for (let company of allCompanies) {
+            if (checkCompanyMatch(companyName, company)) {
+                matchesCompany = true;
+                break;
+            }
+        }
+        
+        let matchesJob = allJobs.size === 0;
+        for (let job of allJobs) {
+            if (checkJobMatch(jobInfo, job)) {
+                matchesJob = true;
+                break;
+            }
+        }
+        
+        let matchesRegion = allRegions.size === 0;
+        for (let region of allRegions) {
+            if (checkRegionMatch(jobInfo, region)) {
+                matchesRegion = true;
+                break;
+            }
+        }
         
         // 모든 조건이 맞으면 표시
         if (matchesCareer && matchesCompany && matchesJob && matchesRegion) {
@@ -1091,27 +1376,35 @@ function parseCareerRange(careerStr) {
 
 // 경력 매칭 체크
 function checkCareerMatch(jobInfo, careerRange) {
-    // "경력: 5년 이상" 또는 "경력: 3년" 등의 패턴 파싱
-    const careerMatch = jobInfo.match(/경력:\s*(\d+)년/);
+    // "경력: 5년 이상" 또는 "경력: 3년 이상" 등의 패턴 파싱
+    const careerMatch = jobInfo.match(/경력:\s*(\d+)년\s*이상/);
     if (!careerMatch) return false;
     
     const jobCareerYears = parseInt(careerMatch[1]);
-    return careerRange.includes(jobCareerYears);
+    
+    // 보유 스펙의 경력 범위 중 최소값 확인
+    const minCareer = Math.min(...careerRange);
+    
+    // 공고의 "X년 이상" 조건과 보유 경력 비교
+    // 예: 공고가 "3년 이상"이고 보유 경력이 3~5년이면 매칭
+    return minCareer >= jobCareerYears;
 }
 
 // 기업 형태 매칭 체크
 function checkCompanyMatch(jobTitle, specCompany) {
+    const titleLower = jobTitle.toLowerCase();
+    
     const companyKeywords = {
         "대기업": ["대기업"],
-        "중견기업": ["중견기업"],
-        "중소기업": ["중소기업"],
+        "중견기업": ["중견기업", "중견"],
+        "중소기업": ["중소기업", "중소"],
         "외국계": ["외국계"],
         "공기업": ["공기업", "공공기관"],
-        "벤처기업": ["벤처", "스타트업"]
+        "벤처기업": ["벤처", "스타트업", "벤처기업"]
     };
     
     const keywords = companyKeywords[specCompany] || [];
-    return keywords.some(keyword => jobTitle.includes(keyword));
+    return keywords.some(keyword => titleLower.includes(keyword.toLowerCase()));
 }
 
 // 직무 매칭 체크
@@ -1120,21 +1413,21 @@ function checkJobMatch(jobInfo, specJob) {
     const jobMatch = jobInfo.match(/직무:\s*([^|]+)/);
     if (!jobMatch) return false;
     
-    const jobText = jobMatch[1].trim();
+    const jobText = jobMatch[1].trim().toLowerCase();
     
-    // 직무 키워드 매칭
+    // 직무 키워드 매칭 (대소문자 구분 없음)
     const jobKeywords = {
-        "개발자": ["개발", "프론트엔드", "백엔드", "풀스택", "FE", "BE"],
-        "PM/PO/기획자": ["기획", "PM", "PO"],
+        "개발자": ["개발", "프론트엔드", "백엔드", "풀스택", "fe", "be", "frontend", "backend"],
+        "PM/PO/기획자": ["기획", "pm", "po"],
         "데이터 분석가": ["데이터", "분석"],
         "인프라/클라우드": ["인프라", "클라우드", "시스템", "운영"],
-        "UI/UX": ["디자인", "UI", "UX"],
+        "UI/UX": ["디자인", "ui", "ux"],
         "마케터": ["마케팅", "마케터"],
-        "QA/테스터": ["QA", "테스트"],
-        "HR/리크루터": ["HR", "인사"]
+        "QA/테스터": ["qa", "테스트"],
+        "HR/리크루터": ["hr", "인사"]
     };
     
-    const keywords = jobKeywords[specJob] || [specJob];
+    const keywords = jobKeywords[specJob] || [specJob.toLowerCase()];
     return keywords.some(keyword => jobText.includes(keyword));
 }
 
