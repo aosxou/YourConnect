@@ -35,7 +35,12 @@ function loadAndDisplaySpecs() {
   
   // 저장된 스펙이 없는 경우
   if (!savedSpecs) {
-    specContent.innerHTML = '<p class="no-spec-message">아직 작성된 정보가 없습니다.</p>';
+    specContent.innerHTML = `
+      <div class="no-spec-container">
+        <p class="no-spec-message">아직 작성된 정보가 없습니다.</p>
+        <button class="create-spec-btn" onclick="createSpec()">작성하기</button>
+      </div>
+    `;
     return;
   }
 
@@ -86,7 +91,12 @@ function loadAndDisplaySpecs() {
       
       specContent.innerHTML = html;
     } else {
-      specContent.innerHTML = '<p class="no-spec-message">아직 작성된 정보가 없습니다.</p>';
+      specContent.innerHTML = `
+        <div class="no-spec-container">
+          <p class="no-spec-message">아직 작성된 정보가 없습니다.</p>
+          <button class="create-spec-btn" onclick="createSpec()">작성하기</button>
+        </div>
+      `;
     }
   } catch (e) {
     specContent.innerHTML = '<p class="no-spec-message">스펙 정보를 불러오는 중 오류가 발생했습니다.</p>';
@@ -95,5 +105,10 @@ function loadAndDisplaySpecs() {
 
 function editSpec() {
   // 스펙 수정 페이지로 이동 (이미 선택된 값들이 spec.js에서 로드됨)
+  window.location.href = './spec.html';
+}
+
+function createSpec() {
+  // 스펙 작성 페이지로 이동
   window.location.href = './spec.html';
 }

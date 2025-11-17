@@ -403,10 +403,36 @@ body {
   font-weight: 700;
 }
 
-.no-spec-message {
-  text-align: center;
+.no-spec-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 20px;
+  position: relative;
+}
+
+.no-spec-message {
+  text-align: left;
   color: #6b7280;
   font-size: 0.95rem;
   margin: 0;
+}
+
+.create-spec-btn {
+  padding: 6px 16px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
+.create-spec-btn:hover {
+  background: #1d4ed8;
 }

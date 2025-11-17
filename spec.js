@@ -11,7 +11,7 @@ const state = {
 const data = {
     ranks: [
         "과장·차장급", "부장급", "팀장/매니저/실장", "파트장/그룹장",
-        "임원/CEO", "주임·대리급", "본부장/센터장"
+        "임원/CEO", "주임·대리급", "본부장/센터장", "인턴"
     ],
     jobs: [
         // 개발자 그룹
@@ -472,27 +472,48 @@ function editSpec(specId) {
 
 // 스펙 삭제
 function deleteSpec(specId) {
-    if (!confirm('이 스펙을 삭제하시겠습니까?')) return;
+    console.log('deleteSpec called with:', specId);
+    
+    if (!confirm('이 스펙을 삭제하시겠습니까?')) {
+        console.log('User cancelled deletion');
+        return;
+    }
     
     const savedSpecs = localStorage.getItem('userSpecs');
-    if (!savedSpecs) return;
+    if (!savedSpecs) {
+        console.log('No specs found in localStorage');
+        return;
+    }
     
     try {
         let specsArray = JSON.parse(savedSpecs);
-        specsArray = specsArray.filter(s => s.id !== specId);
+        console.log('Before delete:', specsArray);
+        console.log('Filtering out spec with id:', specId);
+        
+        const beforeCount = specsArray.length;
+        specsArray = specsArray.filter(s => {
+            console.log('Comparing:', s.id, '!==', specId, ':', s.id !== specId);
+            return s.id !== specId;
+        });
+        const afterCount = specsArray.length;
+        
+        console.log('After delete:', specsArray);
+        console.log('Deleted count:', beforeCount - afterCount);
         
         localStorage.setItem('userSpecs', JSON.stringify(specsArray));
-        
-        // 화면 새로고침
-        displayAllSpecs(specsArray);
+        console.log('localStorage updated');
         
         // 삭제한 스펙을 수정 중이었다면 초기화
         if (state.editingSpecId === specId) {
             resetForm();
         }
         
+        // 페이지 새로고침으로 확실하게 업데이트
+        window.location.reload();
+        
     } catch (e) {
         console.error('스펙 삭제 오류:', e);
+        alert('스펙 삭제 중 오류가 발생했습니다.');
     }
 }
 
