@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 - YourConnect</title>
+  <link rel="stylesheet" href="login.css">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+</head>
+<body>
+  <div class="login-page-wrapper">
+    <div class="login-box">
+      <a href="home.html">
+          <img src="yclogo.png" alt="회사 로고" class="login-logo" />
+      </a>
+      <form id="loginForm">
+        <h2>로그인</h2>
+        
+        <div class="input-group">
+          <input type="email" id="username" placeholder="이메일을 입력해주세요" required />
+        </div>
+        
+        <div class="input-group">
+          <input type="password" id="password" placeholder="비밀번호" required />
+        </div>
+        
+        <button type="submit" class="login-btn">로그인</button>
+      </form>
+
+      <div class="separator"><span>또는</span></div>
+
+      <div class="social-login">
+        <button type="button" class="social-btn google-btn" id="googleLoginBtn">Google로 로그인</button>
+        <button type="button" class="social-btn kakao-btn" id="kakaoLoginBtn">카카오로 로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+
+      const email = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      console.log("로그인 요청:", email, password);
+
+      try {
+        const response = await fetch("http://192.168.233.253:8000/api/auth/login/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        });
+
+        const data = await response.json();
+        console.log("서버 응답:", data);
+
+        if (data.access) {
+          // JWT localStorage에 저장
+          localStorage.setItem("access_token", data.access);
+          localStorage.setItem("refresh_token", data.refresh);
+
+          alert("로그인 성공! 메인 페이지로 이동합니다.");
+          window.location.href = "index.html";
+        } else {
+          alert("로그인 실패: 이메일 또는 비밀번호를 확인해주세요.");
+        }
+      } catch (err) {
+        alert("서버 연결 오류! Django 서버가 켜져 있는지 확인하세요.");
+        console.error(err);
+      }
+    });
+
+    document.getElementById('googleLoginBtn').addEventListener('click', function() {
+      alert('Google 계정 로그인 기능은 아직 개발 중!');
+    });
+
+    document.getElementById('kakaoLoginBtn').addEventListener('click', function() {
+      alert('카카오 로그인 기능은 아직 준비 중!');
+    });
+  </script>
+</body>
+</html>

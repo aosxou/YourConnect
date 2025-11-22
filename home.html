@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>YourConnect | 홈</title>
+  <link rel="stylesheet" href="Home.css" />
+  <style>
+    /* 최소 공통 헤더 스타일 (index.html 일부 차용) */
+    body { margin:0; font-family: 'Pretendard','Noto Sans KR',sans-serif; background:#f5f6f8; }
+    .header-main { display:flex; justify-content:center; align-items:center; padding:0 40px; border-bottom:1px solid #ddd; background:#fff; height:80px; }
+    .nav-container { display:flex; justify-content:space-between; align-items:center; width:100%; max-width:1400px; }
+    .logo-area a { display:flex; align-items:center; text-decoration:none; }
+    .logo-img { width:110px; height:auto; }
+    .menu-category-group { display:flex; gap:190px; align-items:center; }
+    .menu-item { text-decoration:none; font-weight:600; font-size:1.125rem; color:#222; transition:color .2s; }
+    .hover-purple:hover { color:#8b5cf6; }
+    .auth-group { display:flex; gap:12px; align-items:center; }
+    .btn { padding:8px 20px; border-radius:20px; font-weight:600; text-decoration:none; cursor:pointer; transition:.2s; display:inline-block; }
+    .btn-secondary { border:1px solid #aaa; background:#fff; color:#222; }
+    .btn-secondary:hover { background:#f4f4f4; }
+  </style>
+</head>
+<body>
+  <header class="header-main">
+    <nav class="nav-container">
+      <div class="logo-area">
+        <a href="home.html"><img src="yclogo.png" alt="CareerBuddy 로고" class="logo-img" /></a>
+      </div>
+      <div class="menu-category-group">
+        <a href="index.html" class="menu-item hover-purple">맞춤형 커리어 디자인🖥️</a>
+        <a href="mentoring.html" class="menu-item hover-purple">멘토링🤝🏼</a>
+        <a href="headhunting.html" class="menu-item hover-purple">헤드 헌팅🏢</a>
+      </div>
+      <div class="auth-group">
+        <a href="login.html" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="home-main-container">
+    <div class="mentor-profile-layout">
+      <section class="section-mentor-recommend">
+        <div class="section-header">
+          <h2>각 분야별 멘토 추천</h2>
+          <button class="more-btn" onclick="location.href='mentoring.html'">조건 별로 보기</button>
+        </div>
+        <div id="mentor-grid-home" class="mentor-grid-home"><!-- JS 렌더링 --></div>
+      </section>
+      <!-- 사이드 컴포넌트 자리 (MiniProfile 등 필요 시 추가) -->
+    </div>
+
+    <div class="two-column-layout">
+      <section class="section-job-postings">
+        <div class="section-header">
+          <h2>지금 가장 주목받는 공고에요!</h2>
+          <button class="more-link" onclick="location.href='headhunting.html'">맞춤형 채용 설정 &gt;</button>
+        </div>
+        <div id="job-list-home" class="job-list-home"><!-- JS 렌더링 --></div>
+      </section>
+
+      <section class="section-qna">
+        <div class="section-header">
+          <h2>인기 있는 질문</h2>
+          <button class="more-link" onclick="location.href='community.html'">더보기</button>
+        </div>
+        <div id="qna-list" class="qna-list"><!-- JS 렌더링 --></div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- MiniProfile 대체 섹션 (React 컴포넌트 자리) -->
+  <section class="mini-profile-static">
+    <div class="mini-profile-inner">
+      <img src="https://www.gravatar.com/avatar/?d=mp&s=80" alt="프로필" class="mini-profile-avatar" />
+      <div class="mini-profile-info">
+        <h3>사용자 미니 프로필</h3>
+        <p style="margin:4px 0 8px; color:#666; font-size:0.85rem;">최근 활동 / 멘토링 요약 / 알림 등 표시 예정</p>
+        <button class="mini-profile-btn" onclick="location.href='profile.html'">프로필 이동</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Advertisement React 컴포넌트 외부 위치 재배치 -->
+  <section class="section-advertisement outside">
+    <div class="ad-container">
+      <div class="ad-header"><span class="ad-label">AD</span></div>
+      <div class="ad-content">
+        <div class="ad-icon">🚀</div>
+        <h3 class="ad-title">커리어 성장 가속화</h3>
+        <p class="ad-description">나에게 맞는 멘토와 채용 정보를 한 곳에서 탐색해보세요.</p>
+        <button class="ad-cta-button" onclick="location.href='mentoring.html'">지금 시작하기</button>
+      </div>
+      <div class="ad-features">
+        <div class="ad-feature-item"><span class="feature-icon">✔</span><span>맞춤형 멘토 추천</span></div>
+        <div class="ad-feature-item"><span class="feature-icon">✔</span><span>실시간 헤드헌팅 공고</span></div>
+        <div class="ad-feature-item"><span class="feature-icon">✔</span><span>커뮤니티 질문 트렌드</span></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="home-static.js"></script>
+</body>
+</html>
